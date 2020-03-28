@@ -1,0 +1,4 @@
+#!/bin/bash
+
+git remote add upstream git://github.com/CSSEGISandData/COVID-19.git
+git fetch upstream
