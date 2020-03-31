@@ -5,7 +5,7 @@
 ## User parameters:
 country = "US"
 state = "New York"
-fig_format = "tiff"
+fig_format = "png"
 
 #---------------------------------------------------------------------
 ## Set up the workspace.
