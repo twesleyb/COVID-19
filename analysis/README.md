@@ -1,4 +1,4 @@
 # Analysis of COVID-19 data.
 
-![](./figs/*.tiff)
+![](../figs/*.tiff)
 [source](https://www.wser.org/history-year-by-year/)
