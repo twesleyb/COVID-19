@@ -1,4 +1,4 @@
 # Analysis of COVID-19 data.
 
-![](../figs/*.tiff)
-[source](https://www.wser.org/history-year-by-year/)
+![](../figs/2020-03-31_US_New_York.tiff)
+[source](foobar)
