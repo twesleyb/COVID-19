@@ -2,6 +2,11 @@
 
 # Analysis of COVID-19 data.
 
+## User parameters:
+country = "US"
+state = "New York"
+fig_format = "tiff"
+
 #---------------------------------------------------------------------
 ## Set up the workspace.
 #---------------------------------------------------------------------
@@ -12,17 +17,24 @@ suppressPackageStartupMessages({
 	library(TBmiscr)
 	library(ggplot2)
 	library(data.table)
+	library(gtable)
+	library(grid)
+	library(gridExtra)
 })
 
 # Directories.
 root <- getrd()
 datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
+figsdir <- file.path(root,"figs")
 
 #---------------------------------------------------------------------
 ## Load the data.
 #---------------------------------------------------------------------
 
 # Make sure the repo is up to date with master.
+pull <- "git pull upstream master"
+status <- system(pull,intern=TRUE)
+
 # Load the data.
 data_files <- list.files(datadir,pattern=".csv",full.names=TRUE)
 names(data_files) <- tools::file_path_sans_ext(basename(data_files))
@@ -43,64 +55,101 @@ dt <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 ## Look at the data.
 #--------------------------------------------------------------------
 
-# Let's glance at the data from a US state.
-country = "US"
-state = "North Carolina"
-
+# Define a function that generates mortality rate plot.
 plot_mortality_rate <- function(country,state){
 	# Data is dt.
 	# Summarize cases from a given country/state.
-	subdt <- dt %>% filter(Country_Region == country, Province_State == state)
+	subdt <- dt %>% filter(Country_Region == country, 
+			       Province_State == state)
 	subdt_summary <- subdt %>% group_by(Date) %>% 
 		summarize(Confirmed = sum(Confirmed),
 			  Deaths = sum(Deaths),
  		          Recovered = sum(Recovered))
 	# Plot deaths by day.
 	df <- melt(subdt_summary,id.vars="Date",
-		   variable.name="Category",value.name="N") %>% 
-	filter(Category=="Deaths")
-        plot <- ggplot(df,aes(x=Date,y=N,group=Category,color=Category)) + 
-		geom_point() + geom_path() + ylab("Number of Cases") + 
+		   variable.name="Category",value.name="N")
+	# Generate plot.
+        plot <- ggplot(df %>% filter(Category=="Deaths"),
+		       aes(x=Date,y=N,group=Category,color=Category)) + 
+		geom_point(size=1.5,color="darkred") + 
+		geom_path(size=0.75,color="firebrick") + 
+		ylab("Total Number of COVID-19 Deaths") + 
 		ggtitle(paste(country,state,sep=": ")) + 
 		theme(text = element_text(family = "Arial"),
-		      plot.title = element_text(color = "black",size = 11, 
-				        face = "bold", hjust = 0.5,
-				        family = "Arial"),
-		      axis.title.x = element_text(color = "black", 
-				          size = 11, face = "bold",
-				          family = "Arial"),
+		      plot.title = element_text(color = "black",
+						size = 11, 
+						face = "bold", 
+						hjust = 0.5,
+						family = "Arial"),
+		      axis.title.x = element_text(color = "black",
+						  size = 11, 
+						  face = "bold",
+						  family = "Arial"),
 		      axis.title.y = element_text(color = "black", 
-				          size = 11, face = "bold",
-				          family = "Arial"),
-		      axis.text.x = element_text(color = "black", size = 11, 
-				         angle = 45, 
-					 hjust = 1.0,
-				         family = "Arial"),
-		      panel.border = element_rect(colour = "black", fill=NA, size=0.75))
+						  size = 11, 
+						  face = "bold",
+						  family = "Arial"),
+		      axis.text.x = element_text(color = "black", 
+						 size = 11, 
+						 angle = 45, 
+						 hjust = 1.0,
+						 family = "Arial"),
+		      panel.border = element_rect(colour = "black", 
+						  fill=NA, 
+						  size=0.75))
+		## Add plot annotations.
+		# Extract plot x and y limits.
+		build <- ggplot_build(plot)
+		xrange <- build$layout$panel_params[[1]][["x.range"]]
+		yrange <- build$layout$panel_params[[1]][["y.range"]]
+		names(xrange) <- names(yrange) <- c("min","max")
+		xrange["delta"] <- diff(xrange)
+		yrange["delta"] <- diff(yrange)
+		# Annotate with data source.
+		url <- "https://github.com/CSSEGISandData/COVID-19"
+		plot <- plot + 
+			annotate("text", 
+				 fontface = "italic",
+				 size = 3,
+				 colour = "darkgray",
+				 x=0.75*xrange["delta"], 
+				 y=yrange["min"],
+				 label = paste("Source:",url))
+		# Annotate with case summary.
+		tab <- df %>% group_by(Category) %>% 
+			summarize("Total" = max(N))
+		table_theme <- ttheme_default(base_size=11,
+					      core=list(bg_params=list(fill="white")))
+		g <- tableGrob(tab, rows = NULL, theme = table_theme)
+		# Add borders to table.
+		g <- gtable_add_grob(g,
+		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
+		     t = 1, b = nrow(tab)+1, l = 1, r = ncol(tab))
+		g <- gtable_add_grob(g,
+		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
+		     t = 1, b = nrow(tab), l = 1, r = ncol(tab))
+		g <- gtable_add_grob(g,
+		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
+		     t = 1, b = nrow(tab)-1, l = 1, r = ncol(tab))
+		g <- gtable_add_grob(g,
+		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
+		     t = 1, b = nrow(tab)-2, l = 1, r = ncol(tab))
+		plot <- plot + 
+			annotation_custom(g, 
+					  xmin = xrange["min"]-0.70*xrange["delta"],
+					  xmax=xrange["max"],
+					  ymin = yrange["min"] + 0.75 * yrange["delta"], 
+					  ymax=yrange["max"])
 		return(plot)
 }
 
+# Let's glance at the data from a US state.
+plot1 <- plot_mortality_rate(country="US", state="North Carolina")
+plot2 <- plot_mortality_rate(country="US", state="New York")
 
-# Check the global number of deaths.
-df <- dt %>% group_by(Date) %>% 
-	summarize("Deaths" = sum(Deaths,na.rm=TRUE))
-
-plot <- ggplot(df,aes(x=Date,y=Deaths,group=1)) +
-	geom_point() + geom_path() + ylab("Number of Deaths") + 
-	ggtitle("Global Covid-19 Deaths") + 
-	theme(text = element_text(family = "Arial"),
-	      plot.title = element_text(color = "black",size = 11, 
-				        face = "bold", hjust = 0.5,
-				        family = "Arial"),
-	      axis.title.x = element_text(color = "black", 
-				          size = 11, face = "bold",
-				          family = "Arial"),
-	      axis.title.y = element_text(color = "black", 
-				          size = 11, face = "bold",
-				          family = "Arial"),
-	      axis.text.x = element_text(color = "black", size = 11, 
-				         angle = 45, 
-					 hjust = 1.0,
-				         family = "Arial"),
-	      panel.border = element_rect(colour = "black", fill=NA, size=0.75))
-plot
+# Generate a filename for saving the plot.
+country_state <- paste(sapply(c(country,state),function(x) gsub(" ","_",x)),
+		       collapse="_")
+namen <- paste(paste(Sys.Date(),country_state,sep="_"),fig_format,sep=".")
+myfile <- file.path(figsdir,namen)
+ggsave(myfile,plot=plot2,width=7,height=7,units="in")
