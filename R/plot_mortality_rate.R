@@ -5,9 +5,9 @@ plot_mortality_rate <- function(dt_covid,country,state){
 	subdt <- dt_covid %>% filter(Country_Region == country, 
 			            Province_State == state)
 	subdt_summary <- subdt %>% group_by(Date) %>% 
-		summarize(Confirmed = sum(Confirmed),
-			  Deaths = sum(Deaths),
- 		          Recovered = sum(Recovered)) %>%
+		summarize(Confirmed = sum(Confirmed,na.rm=TRUE),
+			  Deaths = sum(Deaths,na.rm=TRUE),
+ 		          Recovered = sum(Recovered,na.rm=TRUE)) %>%
 	        as.data.table()
 	# Plot deaths by day.
 	df <- melt(subdt_summary,id.vars="Date",
@@ -56,7 +56,7 @@ plot_mortality_rate <- function(dt_covid,country,state){
 				 fontface = "italic",
 				 size = 3,
 				 colour = "darkgray",
-				 x=0.75*xrange["delta"], 
+				 x=0.72*xrange["delta"], 
 				 y=yrange["min"],
 				 label = paste("Source:",url))
 		# Annotate with case summary.
