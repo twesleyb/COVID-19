@@ -2,11 +2,6 @@
 
 # Analysis of COVID-19 data.
 
-## User parameters:
-country = "US"
-state = "New York"
-fig_format = "png"
-
 #---------------------------------------------------------------------
 ## Set up the workspace.
 #---------------------------------------------------------------------
@@ -23,12 +18,16 @@ suppressPackageStartupMessages({
 })
 
 # Insure we have installed misc functions.
-devtools::install_github("twesleyb/TBmiscr")
+#devtools::install_github("twesleyb/TBmiscr")
 
 # Directories.
 root <- getrd()
 datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
 figsdir <- file.path(root,"figs")
+funcdir <- file.path(root,"R")
+
+# Load any functions in R/
+invisible({ sapply(list.files(funcdir,pattern="*\\.R",full.names=TRUE),source) })
 
 #---------------------------------------------------------------------
 ## Load the data.
@@ -56,125 +55,22 @@ all_data <- lapply(all_data,fix_colnames)
 dt_covid <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 
 #--------------------------------------------------------------------
-## Look at the data.
+## Examine mortality rates for US states.
 #--------------------------------------------------------------------
-
-dt_states <- dt_covid %>% filter(Country_Region == "US")
-
-data(states)
-
-#--------------------------------------------------------------------
-##
-#--------------------------------------------------------------------
-
-# Define a function that generates mortality rate plot.
-plot_mortality_rate <- function(dt_covid,country,state){
-	# Data is COVID-19 data.table.
-	# Summarize cases from a given country/state.
-	subdt <- dt %>% filter(Country_Region == country, 
-			       Province_State == state)
-	subdt_summary <- subdt %>% group_by(Date) %>% 
-		summarize(Confirmed = sum(Confirmed),
-			  Deaths = sum(Deaths),
- 		          Recovered = sum(Recovered)) %>%
-	        as.data.table()
-	# Plot deaths by day.
-	df <- melt(subdt_summary,id.vars="Date",
-		   variable.name="Category",value.name="N")
-	# Generate plot.
-        plot <- ggplot(df %>% filter(Category=="Deaths"),
-		       aes(x=Date,y=N,group=Category,color=Category)) + 
-		geom_point(size=1.5,color="darkred") + 
-		geom_path(size=0.75,color="firebrick") + 
-		ylab("Total Number of COVID-19 Deaths") + 
-		ggtitle(paste(country,state,sep=": ")) + 
-		theme(text = element_text(family = "Arial"),
-		      plot.title = element_text(color = "black",
-						size = 11, 
-						face = "bold", 
-						hjust = 0.5,
-						family = "Arial"),
-		      axis.title.x = element_text(color = "black",
-						  size = 11, 
-						  face = "bold",
-						  family = "Arial"),
-		      axis.title.y = element_text(color = "black", 
-						  size = 11, 
-						  face = "bold",
-						  family = "Arial"),
-		      axis.text.x = element_text(color = "black", 
-						 size = 11, 
-						 angle = 45, 
-						 hjust = 1.0,
-						 family = "Arial"),
-		      panel.border = element_rect(colour = "black", 
-						  fill=NA, 
-						  size=0.75))
-		## Add plot annotations.
-		# Extract plot x and y limits.
-		build <- ggplot_build(plot)
-		xrange <- build$layout$panel_params[[1]][["x.range"]]
-		yrange <- build$layout$panel_params[[1]][["y.range"]]
-		names(xrange) <- names(yrange) <- c("min","max")
-		xrange["delta"] <- diff(xrange)
-		yrange["delta"] <- diff(yrange)
-		# Annotate with data source.
-		url <- "https://github.com/CSSEGISandData/COVID-19"
-		plot <- plot + 
-			annotate("text", 
-				 fontface = "italic",
-				 size = 3,
-				 colour = "darkgray",
-				 x=0.75*xrange["delta"], 
-				 y=yrange["min"],
-				 label = paste("Source:",url))
-		# Annotate with case summary.
-		tab <- df %>% group_by(Category) %>% 
-			summarize("Total" = max(N))
-		table_theme <- ttheme_default(base_size=11,
-					      core=list(bg_params=list(fill="white")))
-		g <- tableGrob(tab, rows = NULL, theme = table_theme)
-		# Add borders to table.
-		g <- gtable_add_grob(g,
-		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
-		     t = 1, b = nrow(tab)+1, l = 1, r = ncol(tab))
-		g <- gtable_add_grob(g,
-		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
-		     t = 1, b = nrow(tab), l = 1, r = ncol(tab))
-		g <- gtable_add_grob(g,
-		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
-		     t = 1, b = nrow(tab)-1, l = 1, r = ncol(tab))
-		g <- gtable_add_grob(g,
-		     grobs = rectGrob(gp = gpar(fill = NA, lwd = 1)),
-		     t = 1, b = nrow(tab)-2, l = 1, r = ncol(tab))
-		plot <- plot + 
-			annotation_custom(g, 
-					  xmin = xrange["min"]-0.70*xrange["delta"],
-					  xmax=xrange["max"],
-					  ymin = yrange["min"] + 0.75 * yrange["delta"], 
-					  ymax=yrange["max"])
-		return(plot)
-}
 
 # Let's glance at the data from a US state.
-plot1 <- plot_mortality_rate(country="US", state="North Carolina")
-plot2 <- plot_mortality_rate(country="US", state="New York")
-
-# Generate a filename for saving the plot.
-country_state <- paste(sapply(c(country,state),function(x) gsub(" ","_",x)),
-		       collapse="_")
-namen <- paste(paste(Sys.Date(),country_state,sep="_"),fig_format,sep=".")
-myfile <- file.path(figsdir,"US-States",namen)
-
-# Save the plot.
-ggsave(myfile,plot=plot2,width=7,height=7,units="in")
+country = "US"
+state = "North Carolina"
+plot <- plot_mortality_rate(dt_covid, country, state)
+plot
 
 #------------------------------------------------------------------------------
 ## Look at all US states.
 #------------------------------------------------------------------------------
+# Clean up the data from the United States.
 
 # Get all data for the United States.
-# Check: United States is not in the data.
+# Checked: United States is not in the data.
 dt_US <- dt_covid %>% filter(Country_Region=="US")
 
 # We can utilize the state dataset included in base R.
@@ -183,7 +79,7 @@ states <- state.name
 names(states) <- state.abb
 
 # States does not include Washington D.C., because it it technically isn't a
-# state, so we will add it.
+# state, but we will add it.
 states <- c(states,DC="Washington, D.C.")
 
 # Check: are all US states in the data?
@@ -196,7 +92,7 @@ dt_states <- unique(dt_US$Province_State)
 not_a_state <- unique(dt_states[dt_states %notin% states])
 length(not_a_state)
 
-# There are several cases:
+## There are several cases that we need to account for:
 # City only
 # County, ID | ID is State abbreviation, e.g. TX
 # Misc places.
@@ -205,12 +101,16 @@ length(not_a_state)
 #dt_US$Province_State <- gsub("Chicago$","Chicago, IL",dt_US$Province_State)
 dt_US$Province_State[grepl("Chicago$",dt_US$Province_State)] <- "Illinois"
 
+# Fix District of Columbia case.
+idx <- grepl("District of Columbia$",dt_US$Province_State)
+dt_US$Province_State[idx] <- "Washington, D.C."
+
 # Remove the rows in which Province_State == "US" -- this doesn't make any
 # sense.
 dt_US <- dt_US %>% filter(Province_State != "US")
 
 # Fix County, ID use case.
-# Map abbreviation to State name.
+# Map state abbreviation to State name.
 idx <- grepl(", [A-Z]{2}$",dt_US$Province_State)
 state_ids <- sapply(strsplit(dt_US$Province_State[idx],", "),"[",2)
 dt_US$Province_State[idx] <- states[state_ids]
@@ -220,10 +120,6 @@ dt_states <- unique(dt_US$Province_State)
 still_not_a_state <- unique(dt_states[dt_states %notin% states])
 length(still_not_a_state)
 
-# Fix District of Columbia case.
-idx <- grepl("District of Columbia$",dt_US$Province_State)
-dt_US$Province_State[idx] <- "Washington, D.C."
-
 # Let's combine the data from the Diamond Princess cruise ship.
 idx <- grepl("Diamond Princess",dt_US$Province_State)
 dt_US$Province_State[idx] <- "Diamond Princess"
@@ -232,8 +128,8 @@ dt_US$Province_State[idx] <- "Diamond Princess"
 idx <- grepl("Grand Princess",dt_US$Province_State)
 dt_US$Province_State[idx] <- "Grand Princess"
 
-# We will consider this a state for our purposes
-states <- c(states,GP="Grand Princess")
+# We will consider these cruise ships as states for our purposes.
+states <- c(states,DP="Diamond Princess",GP="Grand Princess")
 
 # Okay, how many more?
 dt_states <- unique(dt_US$Province_State)
@@ -247,14 +143,53 @@ dt_US <- dt_US %>% filter(Province_State != "Recovered")
 idx <- grepl("Jackson County, OR ",dt_US$Province_State)
 dt_US$Province_State[idx] <- "Oregon"
 
-# Let's combine data from the Grand Princess cruise ship. 
+# Let's combine data from the US Virgin Islands.
 idx <- grepl("Virgin Islands",dt_US$Province_State)
 dt_US$Province_State[idx] <- "Virgin Islands"
 
 # Add this as a state.
 states <- c(states,VI="Virgin Islands")
 
-# Add Guam and Puerto Rico to states vector.
+# Add Guam and Puerto Rico as well.
 states <- c(states,GU="Guam",PR="Puerto Rico")
 
-dt_US %>% filter(Province_State == "Wuhan Evacuee")
+dt_states <- unique(dt_US$Province_State)
+not_a_state <- unique(dt_states[dt_states %notin% states])
+length(not_a_state)
+
+# We will ignore the Wuhan Evacuee's.
+dt_US <- dt_US %>% filter(Province_State == "Wuhan Evacuee")
+
+# Finally, add American Samoa and Northern Mariana Islands to vector of states.
+# The NMI is an American commonwealth.
+states <- c(states,"AS" = "American Samoa", 
+	    NMI="Northern Mariana Islands")
+
+#---------------------------------------------------------------------
+## We have data from US and a bunch of states.
+#---------------------------------------------------------------------
+# Generate plots for all US states, and associated terrotories.
+
+# Earliest date: 
+start <- as.POSIXct(min(dt$Date),format="%m-%d-%Y")
+today <- Sys.Date()
+elapsed <- ceiling(difftime(today,start))
+elapsed
+
+# Loop to generate plots for all states.
+plots <- list()
+for (state in states){
+	## Generate the plot.
+	plot <- plot_mortality_rate(dt_US, country="US", state)
+	## Save the plot.
+	# Generate a filename for saving the plot.
+	namen <- paste("US",gsub(" ","_",state),sep="_")
+	myfile <- file.path(figsdir,"US-States",
+			    paste(namen,fig_format,sep="."))
+	# Save.
+	ggsave(myfile,plot,width=7,height=7,units="in")
+	# Add plot to list.
+	plots[[state]] <- plot
+}
+
+# Generate a markdown file for each.
