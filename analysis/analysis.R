@@ -62,7 +62,7 @@ dt_covid <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 country = "US"
 state = "North Carolina"
 plot <- plot_mortality_rate(dt_covid, country, state)
-plot
+#plot
 
 #------------------------------------------------------------------------------
 ## Look at all US states.
@@ -153,17 +153,25 @@ states <- c(states,VI="Virgin Islands")
 # Add Guam and Puerto Rico as well.
 states <- c(states,GU="Guam",PR="Puerto Rico")
 
+# Check again.
 dt_states <- unique(dt_US$Province_State)
 not_a_state <- unique(dt_states[dt_states %notin% states])
 length(not_a_state)
 
 # We will ignore the Wuhan Evacuee's.
-dt_US <- dt_US %>% filter(Province_State == "Wuhan Evacuee")
+dt_US <- dt_US %>% filter(Province_State != "Wuhan Evacuee")
 
 # Finally, add American Samoa and Northern Mariana Islands to vector of states.
 # The NMI is an American commonwealth.
 states <- c(states,"AS" = "American Samoa", 
 	    NMI="Northern Mariana Islands")
+
+# Final check:
+is_state <- dt_US$Province_State %in% states
+all(is_state)
+
+# Sort states by abbreviated name.
+states <- states[order(names(states))]
 
 #---------------------------------------------------------------------
 ## We have data from US and a bunch of states.
@@ -171,13 +179,14 @@ states <- c(states,"AS" = "American Samoa",
 # Generate plots for all US states, and associated terrotories.
 
 # Earliest date: 
-start <- as.POSIXct(min(dt$Date),format="%m-%d-%Y")
+start <- as.POSIXct(min(dt_US$Date),format="%m-%d-%Y")
 today <- Sys.Date()
 elapsed <- ceiling(difftime(today,start))
 elapsed
 
-# Loop to generate plots for all states.
-plots <- list()
+# Loop to generate plots for all US states.
+fig_format = "png"
+plots = list()
 for (state in states){
 	## Generate the plot.
 	plot <- plot_mortality_rate(dt_US, country="US", state)
@@ -192,4 +201,21 @@ for (state in states){
 	plots[[state]] <- plot
 }
 
-# Generate a markdown file for each.
+#-----------------
+## Add all plots to README
+#-----------------
+
+# Create READMD.md
+file.create("README.md")
+f <- file("./README.md",open="w+")
+
+# Loop to add state's plot to README.md
+for (state in states) {
+	txt <- c("## STATE","![STATE](../figs/US_STATE.png)","\n")
+	lines <- gsub("STATE",gsub(" ","_",state),txt)
+	# Append text.
+	write(lines,file=f,append=TRUE,sep="\n")
+}
+
+# Close file.
+close(f)
