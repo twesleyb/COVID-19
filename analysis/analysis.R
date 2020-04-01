@@ -36,6 +36,7 @@ invisible({ sapply(list.files(funcdir,pattern="*\\.R",full.names=TRUE),source) }
 # Make sure the repo is up to date with master.
 # Assumes you have already added master repo as upstream.
 pull <- "git pull upstream master"
+message("Pulling data from upstream repository.")
 status <- system(pull,intern=TRUE)
 
 # Load the data.
@@ -84,13 +85,13 @@ states <- c(states,DC="Washington, D.C.")
 
 # Check: are all US states in the data?
 is_state <- dt_US$Province_State %in% states
-all(is_state)
+#all(is_state)
 # Nope, so we need to figure out where/what these other places are.
 
 # How many don't match? 
 dt_states <- unique(dt_US$Province_State)
 not_a_state <- unique(dt_states[dt_states %notin% states])
-length(not_a_state)
+#length(not_a_state)
 
 ## There are several cases that we need to account for:
 # City only
@@ -118,7 +119,7 @@ dt_US$Province_State[idx] <- states[state_ids]
 # Check again, how many don't match? 
 dt_states <- unique(dt_US$Province_State)
 still_not_a_state <- unique(dt_states[dt_states %notin% states])
-length(still_not_a_state)
+#length(still_not_a_state)
 
 # Let's combine the data from the Diamond Princess cruise ship.
 idx <- grepl("Diamond Princess",dt_US$Province_State)
@@ -134,7 +135,7 @@ states <- c(states,DP="Diamond Princess",GP="Grand Princess")
 # Okay, how many more?
 dt_states <- unique(dt_US$Province_State)
 not_a_state <- unique(dt_states[dt_states %notin% states])
-length(not_a_state)
+#length(not_a_state)
 
 # Remove row where Province_State is "Recovered" this doesn't make sense.
 dt_US <- dt_US %>% filter(Province_State != "Recovered")
@@ -156,7 +157,7 @@ states <- c(states,GU="Guam",PR="Puerto Rico")
 # Check again.
 dt_states <- unique(dt_US$Province_State)
 not_a_state <- unique(dt_states[dt_states %notin% states])
-length(not_a_state)
+#length(not_a_state)
 
 # We will ignore the Wuhan Evacuee's.
 dt_US <- dt_US %>% filter(Province_State != "Wuhan Evacuee")
@@ -168,7 +169,7 @@ states <- c(states,"AS" = "American Samoa",
 
 # Final check:
 is_state <- dt_US$Province_State %in% states
-all(is_state)
+if (!all(is_state)) { stop("Some states are not recognized.") }
 
 # Sort states by abbreviated name.
 states <- states[order(names(states))]
@@ -182,9 +183,10 @@ states <- states[order(names(states))]
 start <- as.POSIXct(min(dt_US$Date),format="%m-%d-%Y")
 today <- Sys.Date()
 elapsed <- ceiling(difftime(today,start))
-elapsed
+#elapsed
 
 # Loop to generate plots for all US states.
+message("\nCreating plots for all US States and provinces.")
 fig_format = "png"
 plots = list()
 for (state in states){
@@ -206,12 +208,14 @@ for (state in states){
 #-----------------
 
 # Create READMD.md
-file.create("README.md")
+invisible({ file.create("README.md") })
 f <- file("./README.md",open="w+")
+write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
 
 # Loop to add state's plot to README.md
+message("\nUpdating README.md")
 for (state in states) {
-	txt <- c("## STATE","![STATE](../figs/US_STATE.png)","\n")
+	txt <- c("## STATE","![STATE](../figs/US-States/US_STATE.png)","\n")
 	lines <- gsub("STATE",gsub(" ","_",state),txt)
 	# Append text.
 	write(lines,file=f,append=TRUE,sep="\n")
@@ -219,3 +223,6 @@ for (state in states) {
 
 # Close file.
 close(f)
+
+# Status.
+message("\nDone!")
