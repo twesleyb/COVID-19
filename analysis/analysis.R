@@ -2,22 +2,25 @@
 
 # Analysis of COVID-19 data.
 
+## User parameters to change.
+fig_format = "png"
+
 #---------------------------------------------------------------------
 ## Set up the workspace.
 #---------------------------------------------------------------------
 
 # Imports.
 suppressPackageStartupMessages({
+	library(grid)
 	library(dplyr)
+	library(gtable)
 	library(TBmiscr)
 	library(ggplot2)
-	library(data.table)
-	library(gtable)
-	library(grid)
 	library(gridExtra)
+	library(data.table)
 })
 
-# Insure we have installed misc functions.
+# To install miscelaneous functions from TBmicr:
 #devtools::install_github("twesleyb/TBmiscr")
 
 # Directories.
@@ -27,7 +30,7 @@ figsdir <- file.path(root,"figs")
 funcdir <- file.path(root,"R")
 
 # Load any functions in R/
-invisible({ sapply(list.files(funcdir,pattern="*\\.R",full.names=TRUE),source) })
+load_all()
 
 #---------------------------------------------------------------------
 ## Load the data.
@@ -44,7 +47,7 @@ data_files <- list.files(datadir,pattern=".csv",full.names=TRUE)
 names(data_files) <- tools::file_path_sans_ext(basename(data_files))
 all_data <- lapply(data_files,fread)
 
-# Define a function that cleans up the column names.
+# Define a function that cleans-up the column names.
 fix_colnames <- function(x) { 
 	# Replace "/" and " " with "_".
 	colnames(x) <- gsub("/|\\ ","_",colnames(x))
@@ -55,18 +58,14 @@ all_data <- lapply(all_data,fix_colnames)
 # Merge the data into a single tidy dt.
 dt_covid <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 
-#--------------------------------------------------------------------
-## Examine mortality rates for US states.
-#--------------------------------------------------------------------
-
-# Let's glance at the data from a US state.
-country = "US"
-state = "North Carolina"
-plot <- plot_mortality_rate(dt_covid, country, state)
-#plot
+# Some basic stats:
+today <- Sys.Date()
+start <- as.POSIXct(min(dt_covid$Date),format="%m-%d-%Y")
+elapsed <- ceiling(difftime(today,start))
+message(paste("Elapsed time since first COVID-19 case:", elapsed,"days."))
 
 #------------------------------------------------------------------------------
-## Look at all US states.
+## Clean-up the data from the US.
 #------------------------------------------------------------------------------
 # Clean up the data from the United States.
 
@@ -94,9 +93,9 @@ not_a_state <- unique(dt_states[dt_states %notin% states])
 #length(not_a_state)
 
 ## There are several cases that we need to account for:
-# City only
-# County, ID | ID is State abbreviation, e.g. TX
-# Misc places.
+# * City only
+# * County, ID | ID is State abbreviation, e.g. TX
+# * Misc places.
 
 # Fix City only case - Chicago.
 #dt_US$Province_State <- gsub("Chicago$","Chicago, IL",dt_US$Province_State)
@@ -174,21 +173,20 @@ if (!all(is_state)) { stop("Some states are not recognized.") }
 # Sort states by abbreviated name.
 states <- states[order(names(states))]
 
-#---------------------------------------------------------------------
-## We have data from US and a bunch of states.
-#---------------------------------------------------------------------
-# Generate plots for all US states, and associated terrotories.
+# Status.
+not_a_state <- states[which(states %notin% state.name)]
+n <- length(states) - length(not_a_state)
+message(paste("Collated data from",n, "US states", "plus data from:\n",
+	      paste(not_a_state,collapse=", ")))
 
-# Earliest date: 
-start <- as.POSIXct(min(dt_US$Date),format="%m-%d-%Y")
-today <- Sys.Date()
-elapsed <- ceiling(difftime(today,start))
-#elapsed
+#---------------------------------------------------------------------
+## Generate plots for all US states.
+#---------------------------------------------------------------------
+# Generate plots for all US states and associated provinces.
 
 # Loop to generate plots for all US states.
 message("\nCreating plots for all US States and provinces.")
-fig_format = "png"
-plots = list()
+plots <- list()
 for (state in states){
 	## Generate the plot.
 	plot <- plot_mortality_rate(dt_US, country="US", state)
@@ -203,20 +201,21 @@ for (state in states){
 	plots[[state]] <- plot
 }
 
-#-----------------
-## Add all plots to README
-#-----------------
+#---------------------------------------------------------------------
+## Add plots to README.
+#---------------------------------------------------------------------
 
 # Create READMD.md
 invisible({ file.create("README.md") })
 f <- file("./README.md",open="w+")
 write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
 
-# Loop to add state's plot to README.md
+# Loop to add state plots to README.md
 message("\nUpdating README.md")
 for (state in states) {
-	txt <- c("## STATE","![STATE](../figs/US-States/US_STATE.png)","\n")
-	lines <- gsub("STATE",gsub(" ","_",state),txt)
+	txt <- c("## TITLE","![STATE](../figs/US-States/US_STATE.png)","\n")
+	lines <- gsub("TITLE",state,txt)
+	lines <- gsub("STATE",gsub(" ","_",state),lines)
 	# Append text.
 	write(lines,file=f,append=TRUE,sep="\n")
 }
