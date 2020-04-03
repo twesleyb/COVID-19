@@ -6,6 +6,7 @@
 fig_format = "png" # Figure format of US State plots.
 
 ## Input:
+# COVID-19 daily reports in root/csse_covid_19_data/csse_covid_19_daily_reports
 
 ## Output:
 # * [Modified-Date]_Global_COVID-19_Cases.csv - Data in tidy format.
@@ -26,14 +27,14 @@ suppressPackageStartupMessages({
 	library(data.table)
 })
 
-# To install miscelaneous functions from TBmicr:
+# To install miscellaneous functions from TBmicr:
 #devtools::install_github("twesleyb/TBmiscr")
 
 # Directories.
 root <- getrd()
-datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
-figsdir <- file.path(root,"figs")
 funcdir <- file.path(root,"R")
+figsdir <- file.path(root,"figs")
+datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
 
 # Load any functions in R/
 load_all()
@@ -63,6 +64,9 @@ all_data <- lapply(all_data,fix_colnames)
 
 # Merge the data into a single tidy dt.
 dt_covid <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
+
+# Sort the data.
+dt_covid <- dt_covid %>% setorder(Country_Region,Province_State,Last_Update)
 
 # Save the data.
 namen <- paste(Sys.Date(),"Global_COVID-19_Cases.csv",sep="_")
@@ -189,6 +193,9 @@ not_a_state <- states[which(states %notin% state.name)]
 n <- length(states) - length(not_a_state)
 message(paste("\nCollated data from",n, "US states", "plus data from:\n",
 	      paste(not_a_state,collapse=", ")))
+
+# Sort the data.
+dt_US <- dt_US %>% setorder(Country_Region,Province_State,Last_Update)
 
 # Save the data.
 namen <- paste(Sys.Date(),"US_COVID-19_Cases.csv",sep="_")
