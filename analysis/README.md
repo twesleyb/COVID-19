@@ -12,7 +12,7 @@
 ![Arkansas](../figs/US-States/US_Arkansas.png)
 
 
-## American_Samoa
+## American Samoa
 ![American_Samoa](../figs/US-States/US_American_Samoa.png)
 
 
@@ -32,7 +32,7 @@
 ![Connecticut](../figs/US-States/US_Connecticut.png)
 
 
-## Washington,_D.C.
+## Washington, D.C.
 ![Washington,_D.C.](../figs/US-States/US_Washington,_D.C..png)
 
 
@@ -40,7 +40,7 @@
 ![Delaware](../figs/US-States/US_Delaware.png)
 
 
-## Diamond_Princess
+## Diamond Princess
 ![Diamond_Princess](../figs/US-States/US_Diamond_Princess.png)
 
 
@@ -52,7 +52,7 @@
 ![Georgia](../figs/US-States/US_Georgia.png)
 
 
-## Grand_Princess
+## Grand Princess
 ![Grand_Princess](../figs/US-States/US_Grand_Princess.png)
 
 
@@ -124,11 +124,11 @@
 ![Montana](../figs/US-States/US_Montana.png)
 
 
-## North_Carolina
+## North Carolina
 ![North_Carolina](../figs/US-States/US_North_Carolina.png)
 
 
-## North_Dakota
+## North Dakota
 ![North_Dakota](../figs/US-States/US_North_Dakota.png)
 
 
@@ -136,19 +136,19 @@
 ![Nebraska](../figs/US-States/US_Nebraska.png)
 
 
-## New_Hampshire
+## New Hampshire
 ![New_Hampshire](../figs/US-States/US_New_Hampshire.png)
 
 
-## New_Jersey
+## New Jersey
 ![New_Jersey](../figs/US-States/US_New_Jersey.png)
 
 
-## New_Mexico
+## New Mexico
 ![New_Mexico](../figs/US-States/US_New_Mexico.png)
 
 
-## Northern_Mariana_Islands
+## Northern Mariana Islands
 ![Northern_Mariana_Islands](../figs/US-States/US_Northern_Mariana_Islands.png)
 
 
@@ -156,7 +156,7 @@
 ![Nevada](../figs/US-States/US_Nevada.png)
 
 
-## New_York
+## New York
 ![New_York](../figs/US-States/US_New_York.png)
 
 
@@ -176,19 +176,19 @@
 ![Pennsylvania](../figs/US-States/US_Pennsylvania.png)
 
 
-## Puerto_Rico
+## Puerto Rico
 ![Puerto_Rico](../figs/US-States/US_Puerto_Rico.png)
 
 
-## Rhode_Island
+## Rhode Island
 ![Rhode_Island](../figs/US-States/US_Rhode_Island.png)
 
 
-## South_Carolina
+## South Carolina
 ![South_Carolina](../figs/US-States/US_South_Carolina.png)
 
 
-## South_Dakota
+## South Dakota
 ![South_Dakota](../figs/US-States/US_South_Dakota.png)
 
 
@@ -208,7 +208,7 @@
 ![Virginia](../figs/US-States/US_Virginia.png)
 
 
-## Virgin_Islands
+## Virgin Islands
 ![Virgin_Islands](../figs/US-States/US_Virgin_Islands.png)
 
 
@@ -224,7 +224,7 @@
 ![Wisconsin](../figs/US-States/US_Wisconsin.png)
 
 
-## West_Virginia
+## West Virginia
 ![West_Virginia](../figs/US-States/US_West_Virginia.png)
 
 

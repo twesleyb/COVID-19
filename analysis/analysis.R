@@ -3,7 +3,13 @@
 # Analysis of COVID-19 data.
 
 ## User parameters to change.
-fig_format = "png"
+fig_format = "png" # Figure format of US State plots.
+
+## Input:
+
+## Output:
+# * [Modified-Date]_Global_COVID-19_Cases.csv - Data in tidy format.
+# * [Modified-Date]_US_COVID-19_Cases.csv - Data in tidy format.
 
 #---------------------------------------------------------------------
 ## Set up the workspace.
@@ -38,8 +44,8 @@ load_all()
 
 # Make sure the repo is up to date with master.
 # Assumes you have already added master repo as upstream.
+message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
-message("Pulling data from upstream repository.")
 status <- system(pull,intern=TRUE)
 
 # Load the data.
@@ -58,11 +64,16 @@ all_data <- lapply(all_data,fix_colnames)
 # Merge the data into a single tidy dt.
 dt_covid <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 
+# Save the data.
+namen <- paste(Sys.Date(),"Global_COVID-19_Cases.csv",sep="_")
+myfile <- file.path(root,"data",namen)
+fwrite(dt_covid,myfile)
+
 # Some basic stats:
 today <- Sys.Date()
 start <- as.POSIXct(min(dt_covid$Date),format="%m-%d-%Y")
 elapsed <- ceiling(difftime(today,start))
-message(paste("Elapsed time since first COVID-19 case:", elapsed,"days."))
+message(paste("\nElapsed time since first COVID-19 case:", elapsed,"days."))
 
 #------------------------------------------------------------------------------
 ## Clean-up the data from the US.
@@ -176,8 +187,13 @@ states <- states[order(names(states))]
 # Status.
 not_a_state <- states[which(states %notin% state.name)]
 n <- length(states) - length(not_a_state)
-message(paste("Collated data from",n, "US states", "plus data from:\n",
+message(paste("\nCollated data from",n, "US states", "plus data from:\n",
 	      paste(not_a_state,collapse=", ")))
+
+# Save the data.
+namen <- paste(Sys.Date(),"US_COVID-19_Cases.csv",sep="_")
+myfile <- file.path(root,"data",namen)
+fwrite(dt_US,myfile)
 
 #---------------------------------------------------------------------
 ## Generate plots for all US states.
@@ -185,8 +201,10 @@ message(paste("Collated data from",n, "US states", "plus data from:\n",
 # Generate plots for all US states and associated provinces.
 
 # Loop to generate plots for all US states.
-message("\nCreating plots for all US States and provinces.")
+message("\nGenerating plots for all US States and provinces.")
 plots <- list()
+# Initialize progres bar.
+pbar <- txtProgressBar(max=length(states),style=3)
 for (state in states){
 	## Generate the plot.
 	plot <- plot_mortality_rate(dt_US, country="US", state)
@@ -199,7 +217,10 @@ for (state in states){
 	ggsave(myfile,plot,width=7,height=7,units="in")
 	# Add plot to list.
 	plots[[state]] <- plot
+	# Update progres bar.
+	setTxtProgressBar(pbar,match(state,states))
 }
+close(pbar)
 
 #---------------------------------------------------------------------
 ## Add plots to README.
