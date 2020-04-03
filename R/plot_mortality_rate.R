@@ -1,7 +1,8 @@
-plot_mortality_rate <- function(dt_covid,country,state){
-	# Define a function that generates mortality rate plot.
-	# Data is COVID-19 data.table.
-	# Summarize cases from a given country/state.
+plot_mortality_rate <- function(dt_covid,country,state,log=FALSE){
+
+	## Define a function that generates mortality rate plot.
+	## Data is COVID-19 data.table.
+	# Summarize cases from a given country/state by day.
 	subdt <- dt_covid %>% filter(Country_Region == country, 
 			            Province_State == state)
 	subdt_summary <- subdt %>% group_by(Date) %>% 
@@ -9,12 +10,23 @@ plot_mortality_rate <- function(dt_covid,country,state){
 			  Deaths = sum(Deaths,na.rm=TRUE),
  		          Recovered = sum(Recovered,na.rm=TRUE)) %>%
 	        as.data.table()
-	# Plot deaths by day.
+	# Melt data into tidy df.
 	df <- melt(subdt_summary,id.vars="Date",
 		   variable.name="Category",value.name="N")
+	# Convert Date to standard format.
+	df$Date <- as.POSIXct(df$Date,format="%m-%d-%Y",tz="EST")
+	# Calculate time since start + 1 (days).
+	df$Time <- as.numeric(difftime(df$Date,
+				       min(df$Date),units="days") + 1)
+	# Plot log(time) v log(n)?
+	if (log) {
+		df$logT <- log10(df$Time)
+		df$logN <- log10(df$N)
+	}
+
 	# Generate plot.
         plot <- ggplot(df %>% filter(Category=="Deaths"),
-		       aes(x=Date,y=N,group=Category,color=Category)) + 
+		       aes(x=Time,y=N,group=Category,color=Category)) + 
 		geom_point(size=1.5,color="darkred") + 
 		geom_path(size=0.75,color="firebrick") + 
 		ylab("Total Number of COVID-19 Deaths") + 

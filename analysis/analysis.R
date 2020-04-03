@@ -191,7 +191,7 @@ states <- states[order(names(states))]
 # Status.
 not_a_state <- states[which(states %notin% state.name)]
 n <- length(states) - length(not_a_state)
-message(paste("\nCollated data from",n, "US states", "plus data from:\n",
+message(paste("\nCollated COVID-19 cases from",n, "US states", "plus data from:\n",
 	      paste(not_a_state,collapse=", ")))
 
 # Sort the data.
@@ -224,7 +224,7 @@ for (state in states){
 	ggsave(myfile,plot,width=7,height=7,units="in")
 	# Add plot to list.
 	plots[[state]] <- plot
-	# Update progres bar.
+	# Update progress bar.
 	setTxtProgressBar(pbar,match(state,states))
 }
 close(pbar)
@@ -253,3 +253,16 @@ close(f)
 
 # Status.
 message("\nDone!")
+
+#---------------------------------------------------------------------
+## Fit a curve.
+#---------------------------------------------------------------------
+
+# Plot of NY.
+p1 <- plot_mortality_rate(dt_US, country="US", state="New York",log=F)
+p2 <- plot_mortality_rate(dt_US, country="US", state="New York",log=T)
+
+# Two methods of fitting an exponential growth function:
+plot(log(time), log(y))
+
+
