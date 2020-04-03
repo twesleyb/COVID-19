@@ -3,14 +3,12 @@
 # Analysis of COVID-19 data.
 
 ## User parameters to change.
-fig_format = "png" # Figure format of US State plots.
 
 ## Input:
-# COVID-19 daily reports in root/csse_covid_19_data/csse_covid_19_daily_reports
+# * [Modified-Date]_Global_COVID-19_Cases.csv 
 
 ## Output:
-# * [Modified-Date]_Global_COVID-19_Cases.csv - Data in tidy format.
-# * [Modified-Date]_US_COVID-19_Cases.csv - Data in tidy format.
+# * [Modified-Date]_US_COVID-19_Cases.csv 
 
 #---------------------------------------------------------------------
 ## Set up the workspace.
@@ -39,45 +37,7 @@ datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
 # Load any functions in R/
 load_all()
 
-#---------------------------------------------------------------------
-## Load the data.
-#---------------------------------------------------------------------
-
-# Make sure the repo is up to date with master.
-# Assumes you have already added master repo as upstream.
-message("\nPulling data from upstream repository.")
-pull <- "git pull upstream master"
-status <- system(pull,intern=TRUE)
-
 # Load the data.
-data_files <- list.files(datadir,pattern=".csv",full.names=TRUE)
-names(data_files) <- tools::file_path_sans_ext(basename(data_files))
-all_data <- lapply(data_files,fread)
-
-# Define a function that cleans-up the column names.
-fix_colnames <- function(x) { 
-	# Replace "/" and " " with "_".
-	colnames(x) <- gsub("/|\\ ","_",colnames(x))
-	return(x)
-}
-all_data <- lapply(all_data,fix_colnames)
-
-# Merge the data into a single tidy dt.
-dt_covid <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
-
-# Sort the data.
-dt_covid <- dt_covid %>% setorder(Country_Region,Province_State,Last_Update)
-
-# Save the data.
-namen <- paste(Sys.Date(),"Global_COVID-19_Cases.csv",sep="_")
-myfile <- file.path(root,"data",namen)
-fwrite(dt_covid,myfile)
-
-# Some basic stats:
-today <- Sys.Date()
-start <- as.POSIXct(min(dt_covid$Date),format="%m-%d-%Y")
-elapsed <- ceiling(difftime(today,start))
-message(paste("\nElapsed time since first COVID-19 case:", elapsed,"days."))
 
 #------------------------------------------------------------------------------
 ## Clean-up the data from the US.
@@ -213,8 +173,10 @@ plots <- list()
 # Initialize progres bar.
 pbar <- txtProgressBar(max=length(states),style=3)
 for (state in states){
+
 	## Generate the plot.
-	plot <- plot_mortality_rate(dt_US, country="US", state)
+	plot <- plot_covid_cases(dt_US, country="US", state)
+
 	## Save the plot.
 	# Generate a filename for saving the plot.
 	namen <- paste("US",gsub(" ","_",state),sep="_")
@@ -258,11 +220,19 @@ message("\nDone!")
 ## Fit a curve.
 #---------------------------------------------------------------------
 
+save.image()
+quit()
+
 # Plot of NY.
-p1 <- plot_mortality_rate(dt_US, country="US", state="New York",log=F)
-p2 <- plot_mortality_rate(dt_US, country="US", state="New York",log=T)
+p1 <- plot_covid_cases(dt_US, country="US", state="New York",log=F)
+p2 <- plot_covid_cases(dt_US, country="US", state="New York",log=T)
 
 # Two methods of fitting an exponential growth function:
-plot(log(time), log(y))
+
+fit$coefficients
+
+#Plot the fitted line
+plot(time, y)
+lines(time, time ^ fit$coefficients[2], col = "red")
 
 
