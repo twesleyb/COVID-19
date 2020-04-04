@@ -62,7 +62,7 @@ all_data <- lapply(all_data,fix_colnames)
 dt_combined <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 
 #--------------------------------------------------------------------
-## Clean-up the combined COVID-19 data.
+## Tidy the combined COVID-19 data.
 #--------------------------------------------------------------------
 
 # Melt the combined data into a tidy data.table.
@@ -82,6 +82,71 @@ dt_covid$Date <- as.POSIXct(dt_covid$Date,format="%m-%d-%Y",tz="UTC")
 # Sort the data.
 dt_covid <- dt_covid %>% setorder(Country_Region,Province_State,Category,Date)
 
+#---------------------------------------------------------------------
+## Clean-up the Countries column.
+#---------------------------------------------------------------------
+
+# Remove Country == Cruise Ship
+# This isn't a country.
+# Plus, countries like the US include this data.
+dt_covid <- dt_covid %>% filter(Country_Region != "Cruise Ship")
+
+# Bahamas
+idx <- grepl("Bahamas", dt_covid$Country_Region)
+dt_covid$Country_Region[idx] <- "Bahamas"
+
+# Viet Nam
+idx <- grepl("Viet Nam$", dt_covid$Country_Region)
+dt_covid$Country_Region[idx] <- "Vietnam"
+
+# Mainand China
+idx <- grepl("Mainland China$", dt_covid$Country_Region)
+dt_covid$Country_Region[idx] <- "China"
+
+# Congo
+idx <- grepl("Congo", dt_covid$Country_Region)
+dt_covid$Country_Region[idx] <- "Republic of the Congo"
+
+# Gambia
+idx <- grepl("Gambia", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "Gambia"
+
+# Hong Kong
+idx <- grepl("Hong Kong", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "Hong Kong"
+
+# Iran
+idx <- grepl("Iran", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "Iran"
+
+# Moldova
+idx <- grepl("Moldova", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "Moldova"
+
+# Russia
+idx <- grepl("Russia", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "Russia"
+
+# South Korea
+idx <- grepl("Korea", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "South Korea"
+
+# Taiwan
+idx <- grepl("Taiwan", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "Taiwan"
+
+# UK
+idx <- grepl("United Kingdom", dt_covid$Country_Region)
+#unique(dt_covid$Country_Region[idx])
+dt_covid$Country_Region[idx] <- "UK"
+
 # Save the data.
 namen <- paste(Sys.Date(),"Global_COVID-19_Cases.csv",sep="_")
 myfile <- file.path(root,"data",namen)
@@ -90,7 +155,6 @@ fwrite(dt_covid,myfile)
 #---------------------------------------------------------------------
 ## Summary statistics.
 #---------------------------------------------------------------------
-
 # Note: These numbers may differ from the JHU dashboard.
 
 # Elapsed time since first COVID case.
@@ -99,11 +163,10 @@ start <- min(dt_covid$Date)
 elapsed <- ceiling(difftime(today,start))
 message(paste("\nElapsed time since first COVID-19 case:", elapsed,"days."))
 
-# FIXME: Need to Clean up the countries.
+# Number of countries.
 countries <- unique(dt_covid$Country_Region)
 n <- length(countries)
 message(paste("Data compiled from",n,"countries."))
-writeLines(countries,"countries.txt")
 
 # Summarize the total number of category::cases by country.
 covid_summary <- dt_covid %>% group_by(Country_Region,Category) %>% 
@@ -114,5 +177,3 @@ message("Summary of world-wide COVID-19 cases:")
 tab <- covid_summary %>% group_by(Category) %>% 
 	summarize(Total = formatC(sum(n),big.mark=","))
 knitr::kable(tab)
-
-
