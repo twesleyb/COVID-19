@@ -1,14 +1,14 @@
 #!/usr/bin/env Rscript
 
-# Analysis of COVID-19 data.
+# Tidy up the COVID-19 data from the United States.
 
 ## User parameters to change.
 
 ## Input:
-# * [Modified-Date]_Global_COVID-19_Cases.csv 
+# * root/data/Global_COVID-19_Cases.csv 
 
 ## Output:
-# * [Modified-Date]_US_COVID-19_Cases.csv 
+# * root/data/United_States_COVID-19_Cases.csv 
 
 #---------------------------------------------------------------------
 ## Set up the workspace.
@@ -16,12 +16,8 @@
 
 # Imports.
 suppressPackageStartupMessages({
-	library(grid)
 	library(dplyr)
-	library(gtable)
 	library(TBmiscr)
-	library(ggplot2)
-	library(gridExtra)
 	library(data.table)
 })
 
@@ -32,21 +28,21 @@ suppressPackageStartupMessages({
 root <- getrd()
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
-datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
+datadir <- file.path(root,"data")
 
 # Load any functions in R/
 load_all()
 
 # Load the data.
+dt_covid <- fread(file.path(datadir,"Global_COVID-19_Cases.csv"))
 
 #------------------------------------------------------------------------------
 ## Clean-up the data from the US.
 #------------------------------------------------------------------------------
 # Clean up the data from the United States.
 
-# Get all data for the United States.
-# Checked: United States is not in the data.
-dt_US <- dt_covid %>% filter(Country_Region=="US")
+# Subset the data.
+dt_US <- dt_covid %>% filter(Country_Region=="United States")
 
 # We can utilize the state dataset included in base R.
 data(state)
@@ -54,7 +50,7 @@ states <- state.name
 names(states) <- state.abb
 
 # States does not include Washington D.C., because it it technically isn't a
-# state, but we will add it.
+# state, but we will consider it in our list of US states.
 states <- c(states,DC="Washington, D.C.")
 
 # Check: are all US states in the data?
@@ -151,88 +147,21 @@ states <- states[order(names(states))]
 # Status.
 not_a_state <- states[which(states %notin% state.name)]
 n <- length(states) - length(not_a_state)
-message(paste("\nCollated COVID-19 cases from",n, "US states", "plus data from:\n",
+message(paste("\nCollated COVID-19 cases from",n, 
+	      "US states", "plus data from:\n",
 	      paste(not_a_state,collapse=", ")))
 
+# Add last modified column.
+dt_US[["Last_Update"]] <- Sys.Date()
+
 # Sort the data.
-dt_US <- dt_US %>% setorder(Country_Region,Province_State,Last_Update)
+dt_US <- dt_US %>% setorder(Country_Region,Province_State,Date)
+
+# Insure the data is a data.table.
+dt_US <- as.data.table(dt_US)
 
 # Save the data.
-namen <- paste(Sys.Date(),"US_COVID-19_Cases.csv",sep="_")
-myfile <- file.path(root,"data",namen)
+namen <- "United_States_COVID-19_Cases.csv"
+myfile <- file.path(datadir,namen)
 fwrite(dt_US,myfile)
-
-#---------------------------------------------------------------------
-## Generate plots for all US states.
-#---------------------------------------------------------------------
-# Generate plots for all US states and associated provinces.
-
-# Loop to generate plots for all US states.
-message("\nGenerating plots for all US States and provinces.")
-plots <- list()
-# Initialize progres bar.
-pbar <- txtProgressBar(max=length(states),style=3)
-for (state in states){
-
-	## Generate the plot.
-	plot <- plot_covid_cases(dt_US, country="US", state)
-
-	## Save the plot.
-	# Generate a filename for saving the plot.
-	namen <- paste("US",gsub(" ","_",state),sep="_")
-	myfile <- file.path(figsdir,"US-States",
-			    paste(namen,fig_format,sep="."))
-	# Save.
-	ggsave(myfile,plot,width=7,height=7,units="in")
-	# Add plot to list.
-	plots[[state]] <- plot
-	# Update progress bar.
-	setTxtProgressBar(pbar,match(state,states))
-}
-close(pbar)
-
-#---------------------------------------------------------------------
-## Add plots to README.
-#---------------------------------------------------------------------
-
-# Create READMD.md
-invisible({ file.create("README.md") })
-f <- file("./README.md",open="w+")
-write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
-
-# Loop to add state plots to README.md
-message("\nUpdating README.md")
-for (state in states) {
-	txt <- c("## TITLE","![STATE](../figs/US-States/US_STATE.png)","\n")
-	lines <- gsub("TITLE",state,txt)
-	lines <- gsub("STATE",gsub(" ","_",state),lines)
-	# Append text.
-	write(lines,file=f,append=TRUE,sep="\n")
-}
-
-# Close file.
-close(f)
-
-# Status.
-message("\nDone!")
-
-#---------------------------------------------------------------------
-## Fit a curve.
-#---------------------------------------------------------------------
-
-save.image()
-quit()
-
-# Plot of NY.
-p1 <- plot_covid_cases(dt_US, country="US", state="New York",log=F)
-p2 <- plot_covid_cases(dt_US, country="US", state="New York",log=T)
-
-# Two methods of fitting an exponential growth function:
-
-fit$coefficients
-
-#Plot the fitted line
-plot(time, y)
-lines(time, time ^ fit$coefficients[2], col = "red")
-
-
+message("\n")
