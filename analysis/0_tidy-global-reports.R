@@ -73,7 +73,7 @@ dt_covid <-  melt(dt_combined,
 # Summarize the number of cases by day.
 dt_covid <- dt_covid %>% 
 	group_by(Country_Region,Province_State,Date,Category) %>%
-	summarize("Number of Cases" = sum(Cases,na.rm=TRUE))
+	summarize(Cases = sum(Cases,na.rm=TRUE))
 
 # Convert Date to standard universal time format.
 dt_covid$Date <- as.POSIXct(dt_covid$Date,format="%m-%d-%Y",tz="UTC")
@@ -185,7 +185,7 @@ n_countries <- length(countries)
 
 # Summarize the total number of category::cases by country.
 covid_summary <- dt_covid %>% group_by(Country_Region,Category) %>% 
-	summarize(n = max(`Number of Cases`))
+	summarize(n = max(Cases))
 
 # Determine the global number of cases by category.
 message(paste("\nSummary of COVID-19 cases compiled from",

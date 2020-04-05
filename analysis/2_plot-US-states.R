@@ -38,12 +38,16 @@ datadir <- file.path(root,"data")
 load_all()
 
 # Load the data.
-dt_covid <- fread(file.path(datadir,"Global_COVID-19_Cases.csv"))
+myfile <- file.path(datadir,"United_States_COVID-19_Cases.csv")
+dt_covid <- fread(myfile)
 
 #---------------------------------------------------------------------
 ## Generate plots for all US states.
 #---------------------------------------------------------------------
 # Generate plots for all US states and associated provinces.
+
+# Vector of US states.
+states <- unique(dt_covid$Province_State)
 
 # Loop to generate plots for all US states.
 message("\nGenerating plots for all US States and provinces.")
@@ -53,7 +57,8 @@ pbar <- txtProgressBar(max=length(states),style=3)
 for (state in states){
 
 	## Generate the plot.
-	plot <- plot_covid_cases(dt_US, country="US", state)
+	plot <- plot_covid_cases(dt_US, country_region="United States", 
+				 province_state = state, category = ")
 
 	## Save the plot.
 	# Generate a filename for saving the plot.

@@ -1,4 +1,4 @@
-plot_covid_cases <- function(dt_covid,country,state,
+plot_covid_cases <- function(dt_covid,country_region,province_state,
 				category=c("Deaths","Confirmed","Recovered"),
 					   log=FALSE){
 
@@ -12,10 +12,12 @@ plot_covid_cases <- function(dt_covid,country,state,
 	## Data is COVID-19 data.table.
 
 	# Subset the data for a given country/state.
-	subdt <- dt_covid %>% filter(Country_Region == country, 
-			          Province_State == state)
+	subdt <- dt_covid %>% filter(Country_Region == country_region, 
+			          Province_State == province_state)
+
 	# Summarize cases by day.
 	subdt_summary <- subdt %>% group_by(Date) %>% 
+
 		summarize(Confirmed = sum(Confirmed,na.rm=TRUE),
 			  Deaths = sum(Deaths,na.rm=TRUE),
  		          Recovered = sum(Recovered,na.rm=TRUE)) %>%
