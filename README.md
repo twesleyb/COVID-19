@@ -2,21 +2,15 @@
 
 This is a fork of the data repository currated principally by the Johns Hopkins 
 University Center for Systems Science and Engineering 
-[(JHU CSSE)](https://systems.jhu.edu/). With additional support from the 
+[(JHU CSSE)](https://systems.jhu.edu/). Additional support is provided by the 
 ESRI Living Atlas Team and the Johns Hopkins University Applied Physics 
-Lab [(JHU APL)](https://www.jhuapl.edu/).
+Lab [(JHU APL)](https://www.jhuapl.edu/).  
 
-Please visit the authors' dashboards to visualize the data:
-<br>
-<b>Visual Dashboard (desktop):</b><br>
-https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
-<br><br>
-<b>Visual Dashboard (mobile):</b><br>
-http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61
-<br><br>
+To visualize global COVID-19 trends, please visit the original authors' dashboards
+[(desktop)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
+[(mobile)](http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61).  
 
-<br><br>
-## Data Sources:</b><br>
+## Data Sources
 * World Health Organization (WHO): https://www.who.int/ <br>
 * DXY.cn. Pneumonia. 2020. http://3g.dxy.cn/newh5/view/pneumonia.  <br>
 * BNO News: https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/  <br>
@@ -35,10 +29,7 @@ http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c0
 * 1Point3Arces: https://coronavirus.1point3acres.com/en
 * WorldoMeters: https://www.worldometers.info/coronavirus/
 
-<br>
-
-## Terms of Use:
-<br>
+## Terms of Use
 
 Per the authors' original terms of use, this GitHub repo and its contents herein, 
 including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, 
