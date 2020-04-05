@@ -16,7 +16,8 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 			          Province_State == province_state)
 
 	# Summarize cases by day.
-	subdt_summary <- subdt %>% group_by(Date) %>% 
+	subdt_summary <- subdt %>% group_by(Category,Date) %>% 
+		summarize(N = sum("Number of Cases"))
 
 		summarize(Confirmed = sum(Confirmed,na.rm=TRUE),
 			  Deaths = sum(Deaths,na.rm=TRUE),
