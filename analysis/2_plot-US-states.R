@@ -49,24 +49,22 @@ dt_US <- fread(myfile)
 # Vector of US states.
 states <- unique(dt_US$Province_State)
 
-# Loop to generate plots for all US states.
+# Loop to generate and save plots for all US states.
+# FIXME: persistant problem if data all 0.
+state = "American Somoa"
+
 message("\nGenerating plots for all US States and provinces.")
 plots <- list()
 # Initialize progres bar.
 pbar <- txtProgressBar(max=length(states),style=3)
 for (state in states){
-
-	## Generate the plot.
+	# Generate the plot.
 	plot <- plot_covid_cases(dt_US, country_region="United States", 
-				 province_state = state, category = "Deaths",
-				 log = FALSE)
-
-	## Save the plot.
+				 province_state = state, category = "Deaths") 
 	# Generate a filename for saving the plot.
 	namen <- paste("US",gsub(" ","_",state),sep="_")
 	myfile <- file.path(figsdir,"US-States",
 			    paste(namen,fig_format,sep="."))
-
 	# Save.
 	ggsave(myfile,plot,width=7,height=7,units="in")
 	# Add plot to list.
