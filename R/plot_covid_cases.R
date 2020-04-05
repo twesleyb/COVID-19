@@ -1,3 +1,5 @@
+#' plot_covid_cases
+#' @export 
 plot_covid_cases <- function(dt_covid,country_region,province_state,
 			     category=c("Deaths","Confirmed","Recovered"),
 			     log=FALSE){
