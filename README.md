@@ -10,6 +10,10 @@ To visualize global COVID-19 trends, please visit the original authors' dashboar
 [(desktop)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
 [(mobile)](http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61).  
 
+## COVID cases in the United States.
+See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
+COVID-19 cases in the United States.
+
 ## Data Sources
 * World Health Organization (WHO): https://www.who.int/ <br>
 * DXY.cn. Pneumonia. 2020. http://3g.dxy.cn/newh5/view/pneumonia.  <br>
