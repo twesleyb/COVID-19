@@ -2,7 +2,7 @@
 
 # Plot COVID cases for every US state.
 
-## User parameters to change.
+## User parameters to change:
 
 ## Input:
 # * root/data/United_States_COVID-19_Cases.csv 
@@ -25,7 +25,7 @@ suppressPackageStartupMessages({
 	library(data.table)
 })
 
-# To install miscellaneous functions from TBmicr:
+# To install miscellaneous R functions from TBmicr:
 #devtools::install_github("twesleyb/TBmiscr")
 
 # Directories.
@@ -50,8 +50,11 @@ dt_US <- fread(myfile)
 states <- unique(dt_US$Province_State)
 
 # Loop to generate and save plots for all US states.
-# FIXME: persistant problem if data all 0.
-state = "American Somoa"
+# NOTE: problem states:
+# American Somoa -> no data
+# Diamond Princess -> no deaths
+# Virgin Islands -> no deaths.
+# Wyoming -> no deaths.
 
 message("\nGenerating plots for all US States and provinces.")
 plots <- list()
@@ -61,10 +64,14 @@ for (state in states){
 	# Generate the plot.
 	plot <- plot_covid_cases(dt_US, country_region="United States", 
 				 province_state = state, category = "Deaths") 
+	# Skip the loop's iteration if we are unable to generate a plot.
+	if (is.null(plot)) { 
+		next 
+	}
 	# Generate a filename for saving the plot.
 	namen <- paste("US",gsub(" ","_",state),sep="_")
 	myfile <- file.path(figsdir,"US-States",
-			    paste(namen,fig_format,sep="."))
+			    paste(namen,fig_format="png",sep="."))
 	# Save.
 	ggsave(myfile,plot,width=7,height=7,units="in")
 	# Add plot to list.
@@ -85,7 +92,7 @@ write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
 
 # Loop to add state plots to README.md
 message("\nUpdating README.md")
-for (state in states) {
+for (state in names(plots)) {
 	txt <- c("## TITLE","![STATE](../figs/US-States/US_STATE.png)","\n")
 	lines <- gsub("TITLE",state,txt)
 	lines <- gsub("STATE",gsub(" ","_",state),lines)
