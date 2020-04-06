@@ -33,6 +33,9 @@ invisible({ sapply(list.files(funcdir,pattern="*\\.R",full.names=TRUE),source) }
 ## Load the data.
 #---------------------------------------------------------------------
 
+## FIXME: Scraping from the authors website may be preferable as you
+# then the script doesnt assume you have git set up properly.
+
 # Make sure the repo is up to date with master.
 # Assumes you have already added master repo as upstream.
 pull <- "git pull upstream master"
