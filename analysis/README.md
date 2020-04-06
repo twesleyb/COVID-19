@@ -8,6 +8,10 @@
 ![Alaska](../figs/US-States/US_Alaska.png)
 
 
+## American Samoa
+![American_Samoa](../figs/US-States/US_American_Samoa.png)
+
+
 ## Arizona
 ![Arizona](../figs/US-States/US_Arizona.png)
 
@@ -30,6 +34,10 @@
 
 ## Delaware
 ![Delaware](../figs/US-States/US_Delaware.png)
+
+
+## Diamond Princess
+![Diamond_Princess](../figs/US-States/US_Diamond_Princess.png)
 
 
 ## Florida
@@ -196,6 +204,10 @@
 ![Vermont](../figs/US-States/US_Vermont.png)
 
 
+## Virgin Islands
+![Virgin_Islands](../figs/US-States/US_Virgin_Islands.png)
+
+
 ## Virginia
 ![Virginia](../figs/US-States/US_Virginia.png)
 
@@ -214,5 +226,9 @@
 
 ## Wisconsin
 ![Wisconsin](../figs/US-States/US_Wisconsin.png)
+
+
+## Wyoming
+![Wyoming](../figs/US-States/US_Wyoming.png)
 
 

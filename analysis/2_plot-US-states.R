@@ -50,12 +50,6 @@ dt_US <- fread(myfile)
 states <- unique(dt_US$Province_State)
 
 # Loop to generate and save plots for all US states.
-# NOTE: problem states:
-# American Somoa -> no data
-# Diamond Princess -> no deaths
-# Virgin Islands -> no deaths.
-# Wyoming -> no deaths.
-
 message("\nGenerating plots for all US States and provinces.")
 plots <- list()
 # Initialize progres bar.
@@ -92,7 +86,7 @@ write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
 
 # Loop to add state plots to README.md
 message("\nUpdating README.md")
-for (state in names(plots)) {
+for (state in states) {
 	txt <- c("## TITLE","![STATE](../figs/US-States/US_STATE.png)","\n")
 	lines <- gsub("TITLE",state,txt)
 	lines <- gsub("STATE",gsub(" ","_",state),lines)
