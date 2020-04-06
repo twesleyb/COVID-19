@@ -2,18 +2,24 @@
 _forked from CSSEGISandData/COVID-19_
 
 This is a fork of the data repository currated principally by the __Johns Hopkins 
-University Center__ for __Systems Science__ and __Engineering__
+University Center for Systems Science and Engineering__
 [(JHU CSSE)](https://systems.jhu.edu/). Additional support is provided by the 
 __ESRI Living Atlas Team__ and the __Johns Hopkins University Applied Physics 
 Lab__ [(JHU APL)](https://www.jhuapl.edu/).  
 
-To visualize global COVID-19 trends, please visit the original authors' dashboards
+To visualize global COVID-19 trends, please consider visiting the original authors' data dashboards
 [(desktop)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
 [(mobile)](http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61).  
+
+## COVID-19
+Data in this repository are pulled from `CSSEGISandData/COVID-19` and tidied in
+`R`. 
 
 ## COVID cases in the United States.
 See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
 COVID-19 cases in the United States.
+
+## Usage
 
 ## Data Sources
 * World Health Organization (WHO): https://www.who.int/ <br>
