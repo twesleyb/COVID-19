@@ -2,7 +2,7 @@
 _forked from CSSEGISandData/COVID-19_
 
 This is a fork of the data repository currated principally by the __Johns Hopkins 
-University Center for Systems Science and Engineering__
+University Center__ for __Systems Science__ and __Engineering__
 [(JHU CSSE)](https://systems.jhu.edu/). Additional support is provided by the 
 __ESRI Living Atlas Team__ and the __Johns Hopkins University Applied Physics 
 Lab__ [(JHU APL)](https://www.jhuapl.edu/).  
