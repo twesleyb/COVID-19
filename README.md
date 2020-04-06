@@ -1,11 +1,11 @@
 # 2019 Novel Coronavirus COVID-19 Data Repository
-__forked from CSSEGISandData/COVID-19__
+_forked from CSSEGISandData/COVID-19_
 
-This is a fork of the data repository currated principally by the Johns Hopkins 
-University Center for Systems Science and Engineering 
+This is a fork of the data repository currated principally by the __Johns Hopkins 
+University Center for Systems Science and Engineering__
 [(JHU CSSE)](https://systems.jhu.edu/). Additional support is provided by the 
-ESRI Living Atlas Team and the Johns Hopkins University Applied Physics 
-Lab [(JHU APL)](https://www.jhuapl.edu/).  
+__ESRI Living Atlas Team__ and the __Johns Hopkins University Applied Physics 
+Lab__ [(JHU APL)](https://www.jhuapl.edu/).  
 
 To visualize global COVID-19 trends, please visit the original authors' dashboards
 [(desktop)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
