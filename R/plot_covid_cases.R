@@ -1,4 +1,5 @@
 #' plot_covid_cases
+#' @import data.table (>= 1.12.8)
 #' @export 
 plot_covid_cases <- function(dt_covid,country_region,province_state,
 			     category=c("Deaths","Confirmed","Recovered"),
@@ -7,7 +8,7 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 	# Insure the provided country is in the data.
 	check <- country_region %in% dt_covid$Country_Region
 	if (!check) {  
-		message(paste0("'",country_region,"'",
+		message(paste0(" Warning: '",country_region,"'",
 			   " is not in dt_covid$Country_Region."))
 		return(NULL)
 	}
@@ -15,20 +16,20 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 	# Insure that the provided state is in the data.
 	check <- province_state %in% dt_covid$Province_State
 	if (!check) {  
-		message(paste0("'",province_state,"'",
+		message(paste0(" Warning: '",province_state,"'",
 			   " is not in dt_covid$Province_State."))
 		return(NULL)
 	}
 
 	# Subset the data for a given country/state.
 	subdt <- dt_covid %>% filter(Country_Region == country_region, 
-			          Province_State == province_state)
+			             Province_State == province_state)
 
 	# Check that data subset is not of length 0.
 	check <- dim(subdt)[1] > 0
 	id <- paste(country_region,province_state,sep=":")
 	if (!check) { 
-		message(paste0("There is no data for ",id,"."))
+		message(paste0(" Warning: There is no data for ",id,"."))
 		return(NULL)
 	}
 
@@ -39,19 +40,19 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 	# Check that there are some cases.
 	check <- any(df$Cases > 0)
 	if (!check) { 
-		message(paste0("There is no data for ",id,"."))
+		message(paste0(" Warning: There is no data for ",id,"."))
 		return(NULL)
 	}
 
 	# Determine date of case zero.
 	p0 <- df %>% filter(Cases>0) %>% group_by(Category) %>% 
 		summarize(Date=min(Date)) %>% 
-		transpose(make.names="Category")
+		data.table::transpose(make.names="Category")
 
 	# Check that there is a case of provided category.
 	check <- category %in% colnames(p0)
 	if (!check) {
-		message(paste0("There are no ",category," in ", id,"."))
+		message(paste0(" Warning: There are no ",category," in ", id,"."))
 		return(NULL)
 	}
 
@@ -72,7 +73,6 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 					    path="green"),
 			    "Confirmed" = c(point="darkorange",
 					    path="orange"))
-
 
 	# Generate plot.
 	if (log) {
