@@ -1,0 +1,6 @@
+#!/usr/bin/env Rscript
+
+# Update a R packages documentation.
+
+# NOTE: You should be in a subdirectory of the project.
+devtools::document()

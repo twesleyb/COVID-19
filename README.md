@@ -1,23 +1,21 @@
-# 2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE
+# 2019 Novel Coronavirus COVID-19 Data Repository
+_forked from CSSEGISandData/COVID-19_
 
+This is a fork of the data repository currated principally by the __Johns Hopkins 
+University Center__ for __Systems Science__ and __Engineering__
+[(JHU CSSE)](https://systems.jhu.edu/). Additional support is provided by the 
+__ESRI Living Atlas Team__ and the __Johns Hopkins University Applied Physics 
+Lab__ [(JHU APL)](https://www.jhuapl.edu/).  
 
-This is the data repository for the 2019 Novel Coronavirus Visual Dashboard operated by the Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE). Also, Supported by ESRI Living Atlas Team and the Johns Hopkins University Applied Physics Lab (JHU APL).
+To visualize global COVID-19 trends, please visit the original authors' dashboards
+[(desktop)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
+[(mobile)](http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61).  
 
-<br>
+## COVID cases in the United States.
+See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
+COVID-19 cases in the United States.
 
-<b>Visual Dashboard (desktop):</b><br>
-https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
-<br><br>
-<b>Visual Dashboard (mobile):</b><br>
-http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61
-<br><br>
-<b>Lancet Article:</b><br>
-[An interactive web-based dashboard to track COVID-19 in real time](https://doi.org/10.1016/S1473-3099(20)30120-1)
-<br><br>
-<b>Provided by Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE):</b><br>
-https://systems.jhu.edu/
-<br><br>
-<b>Data Sources:</b><br>
+## Data Sources
 * World Health Organization (WHO): https://www.who.int/ <br>
 * DXY.cn. Pneumonia. 2020. http://3g.dxy.cn/newh5/view/pneumonia.  <br>
 * BNO News: https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/  <br>
@@ -36,15 +34,13 @@ https://systems.jhu.edu/
 * 1Point3Arces: https://coronavirus.1point3acres.com/en
 * WorldoMeters: https://www.worldometers.info/coronavirus/
 
-<br>
-<b>Additional Information about the Visual Dashboard:</b><br>
-https://systems.jhu.edu/research/public-health/ncov/
-<br><br>
+## Terms of Use
 
-<b>Contact Us: </b><br>
-* Email: jhusystems@gmail.com
-<br><br>
-
-<b>Terms of Use:</b><br>
-
-This GitHub repo and its contents herein, including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, all rights reserved, is provided to the public strictly for educational and academic research purposes.  The Website relies upon publicly available data from multiple sources, that do not always agree. The Johns Hopkins University hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, and merchantability.  Reliance on the Website for medical guidance or use of the Website in commerce is strictly prohibited.
+Per the authors' original terms of use, this GitHub repo and its contents herein, 
+including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, 
+all rights reserved, is provided to the public strictly for educational and academic 
+research purposes.  The Website relies upon publicly available data from multiple sources, 
+that do not always agree. The Johns Hopkins University hereby disclaims any and all 
+representations and warranties with respect to the Website, including accuracy, 
+fitness for use, and merchantability.  Reliance on the Website for medical guidance 
+or use of the Website in commerce is strictly prohibited.
