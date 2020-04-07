@@ -35,11 +35,13 @@ load_all()
 ## Load the data.
 #---------------------------------------------------------------------
 
-# Make sure that the local repository is up to date with master 
-# (CSSEGISandData/COVID-19). Assumes you have already added master 
+# Make sure that the local repository is up to date with master: 
+# CSSEGISandData/COVID-19. 
+# NOTE: `git pull` Assumes you have already added master 
 # repository as upstream:
 # $ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git
 # $ git fetch upstream
+# $ git pull upstream master
 message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
 status <- system(pull,intern=TRUE)

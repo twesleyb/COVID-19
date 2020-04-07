@@ -1,4 +1,0 @@
-#!/usr/bin/env Rscript
-
-# Create an R package.
-devtools::create("COVID-19")
