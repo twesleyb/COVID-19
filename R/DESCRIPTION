@@ -1,2 +1,0 @@
-Project specific R functions.
-When in project directory, these can be loaded with devtools::load_all().
