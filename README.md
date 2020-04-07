@@ -7,7 +7,7 @@ COVID-19 cases in the United States.
 
 ## Data Sources
 
-Data in the repository are sourced from the upstream `CSSEGISandData/COVID-19` 
+Data in the repository are pulled from the `CSSEGISandData/COVID-19` 
 data repository currated by the __Johns Hopkins University Center for 
 Systems Science__ and __Engineering__ [(JHU CSSE)](https://systems.jhu.edu/).  
 

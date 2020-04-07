@@ -3,6 +3,7 @@
 # Plot COVID cases for every US state.
 
 ## User parameters to change:
+update_readme = FALSE
 
 ## Input:
 # * root/data/United_States_COVID-19_Cases.csv 
@@ -57,7 +58,7 @@ pbar <- txtProgressBar(max=length(states),style=3)
 for (state in states){
 	# Generate the plot.
 	plot <- plot_covid_cases(dt_US, country_region="United States", 
-				 province_state = state, category = "Deaths") 
+				 province_state = state, category = "Deaths",log=TRUE)
 	# Skip the loop's iteration if we are unable to generate a plot.
 	if (is.null(plot)) { 
 		next 
@@ -79,33 +80,33 @@ close(pbar)
 ## Add plots to README.
 #---------------------------------------------------------------------
 
-# Create READMD.md
-invisible({ file.create("README.md") })
-f <- file("./README.md",open="w+")
-write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
-
-# Loop to add state plots to README.md
-message("\nUpdating README.md")
-for (state in states) {
-	txt <- c("## TITLE","![STATE](../figs/US-States/US_STATE.png)","\n")
-	lines <- gsub("TITLE",state,txt)
-	lines <- gsub("STATE",gsub(" ","_",state),lines)
-	# Append text.
-	write(lines,file=f,append=TRUE,sep="\n")
+# Update README?
+if (update_readme) {
+	# Create READMD.md
+	invisible({ file.create("README.md") })
+	f <- file("./README.md",open="w+")
+	write("# COVID-19 Deaths by US State\n",file=f,append=TRUE)
+	# Loop to add state plots to README.md
+	message("\nUpdating README.md")
+	for (state in states) {
+		txt <- c("## TITLE","![STATE](../figs/US-States/US_STATE.png)","\n")
+		lines <- gsub("TITLE",state,txt)
+		lines <- gsub("STATE",gsub(" ","_",state),lines)
+		# Append text.
+		write(lines,file=f,append=TRUE,sep="\n")
+	}
+	# Close file.
+	close(f)
 }
-
-# Close file.
-close(f)
 
 # Status.
 message("\nDone!")
+quit()
 
 #---------------------------------------------------------------------
 ## Fit a curve.
 #---------------------------------------------------------------------
 
-save.image()
-quit()
 
 # Plot of NY.
 p1 <- plot_covid_cases(dt_US, country="US", state="New York",log=F)
