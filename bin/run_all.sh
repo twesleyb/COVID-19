@@ -2,6 +2,10 @@
 
 # Run the analysis.
 
+# Activate venv.
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate covid
+
 # Pull any changes from upstream repo and tidy up the data.
 ../analysis/0_tidy-global-reports.R
 

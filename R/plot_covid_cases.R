@@ -14,16 +14,22 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 	}
 
 	# Insure that the provided state is in the data.
-	check <- province_state %in% dt_covid$Province_State
-	if (!check) {  
-		message(paste0(" Warning: '",province_state,"'",
-			   " is not in dt_covid$Province_State."))
-		return(NULL)
-	}
+	# FIXME: doesn't work if no state is provided.
+#	check <- province_state %in% dt_covid$Province_State
+#	if (!check) {  
+#		message(paste0(" Warning: '",province_state,"'",
+#			   " is not in dt_covid$Province_State."))
+#		return(NULL)
+#	}
 
 	# Subset the data for a given country/state.
-	subdt <- dt_covid %>% filter(Country_Region == country_region, 
-			             Province_State == province_state)
+	if (is.null(province_state)){
+		# Just a country.
+		subdt <- dt_covid %>% filter(Country_Region == country_region)
+	} else {
+		subdt <- dt_covid %>% filter(Country_Region == country_region, 
+					     Province_State == province_state)
+	}
 
 	# Check that data subset is not of length 0.
 	check <- dim(subdt)[1] > 0
