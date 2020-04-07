@@ -50,7 +50,10 @@ dt_US <- fread(myfile)
 # Vector of US states.
 states <- unique(dt_US$Province_State)
 
+plot_states(states,category="Deaths",save=FALSE)
+
 # Loop to generate and save plots for all US states.
+<<<<<<< HEAD
 message("\nGenerating plots for all US States and provinces.")
 plots <- list()
 # Initialize progres bar.
@@ -62,19 +65,36 @@ for (state in states){
 	# Skip the loop's iteration if we are unable to generate a plot.
 	if (is.null(plot)) { 
 		next 
+=======
+plot_states <- function(states,categrory,save){
+	message("\nGenerating plots for all US States and provinces.")
+	plots <- list()
+	# Initialize progres bar.
+	pbar <- txtProgressBar(max=length(states),style=3)
+	for (state in states){
+		# Generate the plot.
+		plot <- plot_covid_cases(dt_US, country_region="United States", 
+					 province_state = state, category) 
+		# Skip the loop's iteration if we are unable to generate a plot.
+		if (is.null(plot)) { 
+			next 
+		}
+		# Generate a filename for saving the plot.
+		if (save) {
+			namen <- paste("US",gsub(" ","_",state),sep="_")
+			myfile <- file.path(figsdir,"US-States",
+					    paste(namen,fig_format="png",sep="."))
+			# Save.
+			ggsave(myfile,plot,width=7,height=7,units="in")
+		}
+		# Add plot to list.
+		plots[[state]] <- plot
+		# Update progress bar.
+		setTxtProgressBar(pbar,match(state,states))
+>>>>>>> f02c9a3334d9f4d26a55c7bf453b0140178f8f5c
 	}
-	# Generate a filename for saving the plot.
-	namen <- paste("US",gsub(" ","_",state),sep="_")
-	myfile <- file.path(figsdir,"US-States",
-			    paste(namen,fig_format="png",sep="."))
-	# Save.
-	ggsave(myfile,plot,width=7,height=7,units="in")
-	# Add plot to list.
-	plots[[state]] <- plot
-	# Update progress bar.
-	setTxtProgressBar(pbar,match(state,states))
+	close(pbar)
 }
-close(pbar)
 
 #---------------------------------------------------------------------
 ## Add plots to README.
