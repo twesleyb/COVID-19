@@ -57,7 +57,7 @@ The orignal authors reference the following data sources:
 * 1Point3Arces: https://coronavirus.1point3acres.com/en
 * WorldoMeters: https://www.worldometers.info/coronavirus/
 
-## Terms of Use
+## License
 
 Per the authors' original terms of use, this GitHub repo and its contents herein, 
 including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, 
