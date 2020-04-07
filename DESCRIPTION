@@ -12,5 +12,4 @@ Encoding: UTF-8
 LazyData: false
 RoxygenNote: 7.1.0
 Imports: 
-    data.table (>= 1.12.8),
-    dplyr (>= 0.3.0.1)
+    data.table (>= 1.12.8)
