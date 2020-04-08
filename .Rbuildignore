@@ -1,4 +1,5 @@
 # Files and directories to be ignored when creating a package.
-raw/*        # Ignore everything in raw data directory.
-downloads/*  # Temporary files.
-bin/*        # Utility functions.
+raw/*                # Ignore everything in raw data directory.
+downloads/*          # Temporary files.
+bin/*                # Utility functions.
+csse_covid_19_data/* # The raw data.
