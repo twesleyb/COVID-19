@@ -5,7 +5,7 @@ _originally forked from
 ## Description
 Tidy COVID-19 case data available as an `R` package.  
 
-## COVID cases in the United States
+## COVID in the United States
 See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
 COVID-19 cases in the United States.
 
@@ -13,8 +13,17 @@ COVID-19 cases in the United States.
 In R, download the `covid19` package from github:
 ```R
 devtools::install_github("twesleyb/COVID-19")
+```
+
+Access the COVID-19 case data with `data()`:
+```R
 library(covid19)
 
+# Load worldwide cases:
+data(global_cases)
+
+# Load COVID cases in the US:
+data(united_states_cases)
 ```
 
 ## Data Sources
