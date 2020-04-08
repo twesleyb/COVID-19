@@ -1,17 +1,20 @@
 # COVID-19 Data Repository
-_forked from
+_originally forked from
 [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)_  
 
-Tidy COVID-19 case data.  
+## Description
+Tidy COVID-19 case data available as an `R` package.  
 
-## COVID cases in the United States.
+## COVID cases in the United States
 See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
 COVID-19 cases in the United States.
 
 ## Usage
-Install covid19 from github:
-```
-devtools::isntall_github("twesleyb/covid19")
+In R, download the `covid19` package from github:
+```R
+devtools::install_github("twesleyb/COVID-19")
+library(covid19)
+
 ```
 
 ## Data Sources
