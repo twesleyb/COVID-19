@@ -195,7 +195,6 @@ save(global_cases,file=myfile,version=2)
 today <- Sys.Date()
 start <- min(dt_covid[which(dt_covid$Category=="Confirmed"),Date])
 elapsed <- ceiling(difftime(today,start))
-message(paste("\nElapsed time since first confirmed COVID-19 case:", elapsed,"days."))
 
 # Number of countries.
 countries <- unique(dt_covid$Country_Region)
@@ -206,8 +205,9 @@ covid_summary <- dt_covid %>% group_by(Country_Region,Category) %>%
 	summarize(n = max(Cases))
 
 # Determine the global number of cases by category.
-message(paste("\nSummary of COVID-19 cases compiled from",
-	       n_countries,"countries:"))
+message(paste0("\nSummary of COVID-19 cases compiled from ",
+	       n_countries," countries since ",
+	       start," (",elapsed," days):"))
 tab <- covid_summary %>% group_by(Category) %>% 
 	summarize(Total = formatC(sum(n),format="d",big.mark=","))
 knitr::kable(tab)
