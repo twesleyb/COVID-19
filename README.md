@@ -20,8 +20,9 @@ library(covid19)
 ## Data Sources
 
 Data in this repository are pulled from the `CSSEGISandData/COVID-19` 
-data repository currated by the __Johns Hopkins University Center for 
-Systems Science__ and __Engineering__ [(JHU CSSE)](https://systems.jhu.edu/).
+data repository. This repository is currated by the __Johns Hopkins 
+University Center for Systems Science__ and __Engineering__ 
+[(JHU CSSE)](https://systems.jhu.edu/).
 
 The orignal authors reference the following data sources:  
 
