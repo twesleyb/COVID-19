@@ -1,4 +1,4 @@
 # Files and directories to be ignored when creating a package.
-raw/        
-downloads/
-bin/
+raw/*        # Ignore everything in raw data directory.
+downloads/*  # Temporary files.
+bin/*        # Utility functions.
