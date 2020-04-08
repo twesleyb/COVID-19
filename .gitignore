@@ -1,7 +1,6 @@
 # Misc directories to ignore.
 ARCHIVE/
 downloads/
-figs/
 raw/
 
 # Ignore .RData
