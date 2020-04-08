@@ -6,7 +6,7 @@
 # COVID-19 daily reports in root/csse_covid_19_data/csse_covid_19_daily_reports/
 
 ## Output:
-# * root/tidy_data/global_cases.csv 
+# * root/data/global_cases.csv 
 # * root/data/global_cases.RData
 
 #---------------------------------------------------------------------
@@ -28,7 +28,6 @@ root <- getrd()
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 rdatdir <- file.path(root,"data")
-outpdir <- file.path(root,"tidy_data")
 datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
 
 # Load any functions in R/
@@ -45,6 +44,11 @@ load_all()
 # $ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git
 # $ git fetch upstream
 # $ git pull upstream master
+
+# To add a specific directory, ignoring others:
+# $ git fetch upstream master
+# $ git checkout upstream/master -- csse_covid_19_data/csse_covid_19_daily_reports
+
 message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
 status <- system(pull,intern=TRUE)
@@ -91,6 +95,8 @@ dt_covid <- dt_covid %>% setorder(Country_Region,Province_State,Category,Date)
 #---------------------------------------------------------------------
 ## Clean-up the Countries column.
 #---------------------------------------------------------------------
+# Combine data from countries that are listed multiple times due to 
+# multiple names.
 
 # Remove Country == Cruise Ship
 # This isn't a country.
@@ -170,9 +176,15 @@ dt_covid$Country_Region[idx] <- "Taipei"
 # Insure the data is a data.table
 dt_covid <- as.data.table(dt_covid)
 
-# Save the data.
-myfile <- file.path(outpdir,"global_cases.csv")
+# Save the data as csv.
+myfile <- file.path(rdatdir,"global_cases.csv")
 fwrite(dt_covid,myfile)
+
+# Save the data as RData for R package.
+# Specify version in order to avoid warning message when installing package.
+myfile <- file.path(rdatdir,"global_cases.RData")
+global_cases <- dt_covid
+save(global_cases,file=myfile,version=2)
 
 #---------------------------------------------------------------------
 ## Summary statistics.
@@ -197,6 +209,6 @@ covid_summary <- dt_covid %>% group_by(Country_Region,Category) %>%
 message(paste("\nSummary of COVID-19 cases compiled from",
 	       n_countries,"countries:"))
 tab <- covid_summary %>% group_by(Category) %>% 
-	summarize(Total = formatC(sum(n),big.mark=","))
+	summarize(Total = formatC(sum(n),format="d",big.mark=","))
 knitr::kable(tab)
 message("\n")
