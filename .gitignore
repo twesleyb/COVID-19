@@ -1,4 +1,5 @@
 # Misc directories to ignore.
+ARCHIVE/
 downloads/
 figs/
 
