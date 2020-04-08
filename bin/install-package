@@ -2,10 +2,10 @@
 
 # Input arguments.
 git_user <- "twesleyb"
-package_name <- "COVID-19"
+repo_name <- "COVID-19"
 
 # Check if package is installed.
-package <- file.path(git_user,package_name)
+package <- file.path(git_user,repo_name)
 is_installed <- package %in% rownames(installed.packages())
 
 # If installed, then remove it.
