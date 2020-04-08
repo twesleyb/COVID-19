@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Add master repo as upstream.
-#git remote add upstream git://github.com/CSSEGISandData/COVID-19.git
-#git fetch upstream
-
-# Pull any changes.
-git pull upstream master
