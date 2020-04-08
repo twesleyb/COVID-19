@@ -1,32 +1,13 @@
-# 2019 Novel Coronavirus COVID-19 Data Repository
-_forked from CSSEGISandData/COVID-19_
+# COVID-19 Data Repository
+_forked from CSSEGISandData/COVID-19_  
 
-<<<<<<< HEAD
-This is a fork of the data repository currated principally by the __Johns Hopkins 
-University Center for Systems Science and Engineering__
-[(JHU CSSE)](https://systems.jhu.edu/). Additional support is provided by the 
-__ESRI Living Atlas Team__ and the __Johns Hopkins University Applied Physics 
-Lab__ [(JHU APL)](https://www.jhuapl.edu/).  
-=======
-## COVID cases in the United States.
-See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
-COVID-19 cases in the United States.
+Tidy COVID-19 case data.  
 
 ## Data Sources
 
-Data in the repository are pulled from the `CSSEGISandData/COVID-19` 
-data repository currated by the __Johns Hopkins University Center for 
-Systems Science__ and __Engineering__ [(JHU CSSE)](https://systems.jhu.edu/).  
->>>>>>> 3e9fe32bc40784e1f11b70fc1b0e381aeee6934d
 
-To visualize global COVID-19 trends, please consider visiting the original authors' data dashboards
-[(desktop)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
-[(mobile)](http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61).  
-
-<<<<<<< HEAD
-## COVID-19
-Data in this repository are pulled from `CSSEGISandData/COVID-19` and tidied in
-`R`. 
+Please see the original authors' repository for more information about the
+preliminary collection and curration of the data.
 
 ## COVID cases in the United States.
 See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
@@ -35,27 +16,29 @@ COVID-19 cases in the United States.
 ## Usage
 
 ## Data Sources
-=======
+
+Data in this repository are pulled from the `CSSEGISandData/COVID-19` 
+data repository currated by the __Johns Hopkins University Center for 
+Systems Science__ and __Engineering__ [(JHU CSSE)](https://systems.jhu.edu/).
+
 The orignal authors reference the following data sources:  
 
->>>>>>> 3e9fe32bc40784e1f11b70fc1b0e381aeee6934d
-* World Health Organization (WHO): https://www.who.int/ <br>
-* DXY.cn. Pneumonia. 2020. http://3g.dxy.cn/newh5/view/pneumonia.  <br>
-* BNO News: https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/  <br>
-* National Health Commission of the People’s Republic of China (NHC): <br>
- http://www.nhc.gov.cn/xcs/yqtb/list_gzbd.shtml <br>
-* China CDC (CCDC): http://weekly.chinacdc.cn/news/TrackingtheEpidemic.htm <br>
-* Hong Kong Department of Health: https://www.chp.gov.hk/en/features/102465.html <br>
-* Macau Government: https://www.ssm.gov.mo/portal/ <br>
-* Taiwan CDC: https://sites.google.com/cdc.gov.tw/2019ncov/taiwan?authuser=0 <br>
-* US CDC: https://www.cdc.gov/coronavirus/2019-ncov/index.html <br>
-* Government of Canada: https://www.canada.ca/en/public-health/services/diseases/coronavirus.html <br>
-* Australia Government Department of Health: https://www.health.gov.au/news/coronavirus-update-at-a-glance <br>
-* European Centre for Disease Prevention and Control (ECDC): https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases 
-* Ministry of Health Singapore (MOH): https://www.moh.gov.sg/covid-19
-* Italy Ministry of Health: http://www.salute.gov.it/nuovocoronavirus
-* 1Point3Arces: https://coronavirus.1point3acres.com/en
-* WorldoMeters: https://www.worldometers.info/coronavirus/
+* World Health Organization [(WHO)](https://www.who.int/)<br>
+* [COVID-19 Global Pandemic Real-time Report](http://3g.dxy.cn/newh5/view/pneumonia)<br>
+* [BNO News](https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/)<br>
+* National Health Commission of the People’s Republic of China [(NHC)](http://www.nhc.gov.cn/xcs/yqtb/list_gzbd.shtml)<br>
+* China CDC [(CCDC)](http://weekly.chinacdc.cn/news/TrackingtheEpidemic.html)<br>
+* [Hong Kong Department of Health](https://www.chp.gov.hk/en/features/102465.html)<br>
+* [Macau Government](https://www.ssm.gov.mo/portal/)<br>
+* [Taiwan CDC](https://sites.google.com/cdc.gov.tw/2019ncov/taiwan?authuser=0)<br>
+* [United States CDC](https://www.cdc.gov/coronavirus/2019-ncov/index.html)<br>
+* [Government of Canada](https://www.canada.ca/en/public-health/services/diseases/coronavirus.html)<br>
+* [Australia Government Department of Health](https://www.health.gov.au/news/coronavirus-update-at-a-glance)<br>
+* European Centre for Disease Prevention and Control [(ECDC)](https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases)<br>
+* Ministry of Health Singapore [(MOH)](https://www.moh.gov.sg/covid-19)
+* [Italy Ministry of Health](http://www.salute.gov.it/nuovocoronavirus)
+* [1Point3Arces](https://coronavirus.1point3acres.com/en)
+* [WorldoMeters](https://www.worldometers.info/coronavirus/)
 
 ## License
 
