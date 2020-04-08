@@ -6,7 +6,8 @@
 # COVID-19 daily reports in root/csse_covid_19_data/csse_covid_19_daily_reports/
 
 ## Output:
-# * [Last-Modified-Date]_Global_COVID-19_Cases.csv 
+# * root/tidy_data/global_cases.csv 
+# * root/data/global_cases.RData
 
 #---------------------------------------------------------------------
 ## Set up the workspace.
@@ -26,6 +27,8 @@ suppressPackageStartupMessages({
 root <- getrd()
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
+rdatdir <- file.path(root,"data")
+outpdir <- file.path(root,"tidy_data")
 datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
 
 # Load any functions in R/
@@ -45,6 +48,8 @@ load_all()
 message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
 status <- system(pull,intern=TRUE)
+# FIXME: check the status of git pull.
+#if (status) {}
 
 # Load the data into a list.
 data_files <- list.files(datadir,pattern=".csv",full.names=TRUE)
@@ -166,8 +171,7 @@ dt_covid$Country_Region[idx] <- "Taipei"
 dt_covid <- as.data.table(dt_covid)
 
 # Save the data.
-namen <- "Global_COVID-19_Cases.csv"
-myfile <- file.path(root,"data",namen)
+myfile <- file.path(outpdir,"global_cases.csv")
 fwrite(dt_covid,myfile)
 
 #---------------------------------------------------------------------
