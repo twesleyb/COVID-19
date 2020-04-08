@@ -2,6 +2,7 @@
 ARCHIVE/
 downloads/
 figs/
+raw/
 
 # Ignore .RData
 .RData
