@@ -1,3 +1,6 @@
-.DS_Store
+# Misc directories to ignore.
 downloads/
 figs/
+
+# Ignore .RData
+.RData
