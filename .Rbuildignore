@@ -1,0 +1,4 @@
+# Files and directories to be ignored when creating a package.
+raw         
+downloads
+bin
