@@ -176,6 +176,9 @@ dt_covid$Country_Region[idx] <- "Taipei"
 # Insure the data is a data.table
 dt_covid <- as.data.table(dt_covid)
 
+# Add last update column.
+dt_covid[["Last_Update"]] <- Sys.Date()
+
 # Save the data as csv.
 myfile <- file.path(rdatdir,"global_cases.csv")
 fwrite(dt_covid,myfile)

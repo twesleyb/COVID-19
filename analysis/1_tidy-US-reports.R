@@ -5,10 +5,11 @@
 ## User parameters to change.
 
 ## Input:
-# * root/data/Global_COVID-19_Cases.csv 
+# * root/data/global_cases.csv 
 
 ## Output:
-# * root/data/United_States_COVID-19_Cases.csv 
+# * root/data/united_states_cases.csv 
+# * root/data/united_states_cases.RData
 
 #---------------------------------------------------------------------
 ## Set up the workspace.
@@ -34,7 +35,7 @@ datadir <- file.path(root,"data")
 load_all()
 
 # Load the data.
-dt_covid <- fread(file.path(datadir,"Global_COVID-19_Cases.csv"))
+dt_covid <- fread(file.path(datadir,"global_cases.csv"))
 
 #------------------------------------------------------------------------------
 ## Clean-up the data from the US.
@@ -144,13 +145,6 @@ if (!all(is_state)) { stop("Some states are not recognized.") }
 # Sort states by abbreviated name.
 states <- states[order(names(states))]
 
-# Status.
-not_a_state <- states[which(states %notin% state.name)]
-n <- length(states) - length(not_a_state)
-message(paste("\nCollated COVID-19 cases from",n, 
-	      "US states", "plus data from:\n",
-	      paste(not_a_state,collapse=", ")))
-
 # Add last modified column.
 dt_US[["Last_Update"]] <- Sys.Date()
 
@@ -160,8 +154,27 @@ dt_US <- dt_US %>% setorder(Country_Region,Province_State,Date)
 # Insure the data is a data.table.
 dt_US <- as.data.table(dt_US)
 
-# Save the data.
-namen <- "United_States_COVID-19_Cases.csv"
+# Save the data as csv.
+namen <- "united_states_cases.csv"
 myfile <- file.path(datadir,namen)
 fwrite(dt_US,myfile)
+
+# Save as RData for package.
+namen <- "united_states_cases.RData"
+united_states_cases <- dt_US
+myfile <- file.path(datadir,namen)
+save(united_states_cases,file=myfile,version=2)
+
+# Summary.
+not_a_state <- states[which(states %notin% state.name)]
+n <- length(states) - length(not_a_state)
+tab <- dt_US %>% group_by(Category) %>% 
+	summarize(Total=formatC(max(Cases),format="d",big.mark=","))
+
+# Status.
+message(paste("\nSummary of COVID-19 cases from",n, 
+	      "US states and", length(not_a_state),
+	      "provinces:"))
+knitr::kable(tab)
+
 message("\n")
