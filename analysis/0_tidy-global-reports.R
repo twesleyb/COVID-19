@@ -51,9 +51,16 @@ load_all()
 
 message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
-status <- system(pull,intern=TRUE)
-# FIXME: check the status of git pull.
-#if (status) {}
+response <- system(pull,intern=TRUE)
+
+# Stop if unable to read from remote repository.
+if (attr(response,"status") == 1) {
+	msg <- c("Unable to read from remote repository.Have you added the upstream repository? In the terminal, try:\n",
+		 "$ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git\n",
+		 "$ git fetch upstream\n",
+		 "$ git pull upstream master\n")
+	stop(msg)
+}
 
 # Load the data into a list.
 data_files <- list.files(datadir,pattern=".csv",full.names=TRUE)
