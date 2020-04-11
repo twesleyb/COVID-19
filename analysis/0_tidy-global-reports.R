@@ -49,15 +49,19 @@ load_all()
 # $ git fetch upstream master
 # $ git checkout upstream/master -- csse_covid_19_data/csse_covid_19_daily_reports
 
+# Pull data from upstream repo.
 message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
 response <- system(pull,intern=TRUE)
 
 # Stop if unable to read from remote repository.
-if (attr(response,"status") == 1) {
-	msg <- c("Unable to read from remote repository.Have you added the upstream repository? In the terminal, try:\n",
+if (is.null(attr(response,"status"))) {
+	message(response) 
+} else if (attr(response,"status") == 1) {
+	msg <- c("Unable to read from remote repository.\n",
+		 "Have you added the upstream repository? In the terminal, try:\n",
 		 "$ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git\n",
-		 "$ git fetch upstream\n",
+		 "$ git fetch upstream master\n",
 		 "$ git pull upstream master\n")
 	stop(msg)
 }
