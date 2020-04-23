@@ -5,3 +5,10 @@ raw/
 
 # Ignore .RData
 .RData
+
+# Ignore renv
+renv/
+
+# Ignore temporary files.
+*.swo
+*.swp
