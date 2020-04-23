@@ -15,6 +15,9 @@
 ## Set up the workspace.
 #---------------------------------------------------------------------
 
+# Load renv.
+renv::activate(getrd())
+
 # Imports.
 suppressPackageStartupMessages({
 	library(dplyr)
@@ -32,7 +35,7 @@ figsdir <- file.path(root,"figs")
 datadir <- file.path(root,"data")
 
 # Load any functions in R/
-load_all()
+devtools::load_all()
 
 # Load the data.
 dt_covid <- fread(file.path(datadir,"global_cases.csv"))

@@ -16,6 +16,9 @@ save_plots = TRUE
 ## Set up the workspace.
 #---------------------------------------------------------------------
 
+# Load renv.
+renv::activate(getrd())
+
 # Imports.
 suppressPackageStartupMessages({
 	library(grid)
