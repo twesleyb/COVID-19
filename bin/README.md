@@ -1,11 +1,17 @@
 # COVID-19 Deaths by US State
 
+_last update: 2020-04-20_
+
 ## Alabama
 ![Alabama](../figs/US-States/US_Alabama.png)
 
 
 ## Alaska
 ![Alaska](../figs/US-States/US_Alaska.png)
+
+
+## American Samoa
+![American_Samoa](../figs/US-States/US_American_Samoa.png)
 
 
 ## Arizona
@@ -30,6 +36,10 @@
 
 ## Delaware
 ![Delaware](../figs/US-States/US_Delaware.png)
+
+
+## Diamond Princess
+![Diamond_Princess](../figs/US-States/US_Diamond_Princess.png)
 
 
 ## Florida
@@ -218,5 +228,9 @@
 
 ## Wisconsin
 ![Wisconsin](../figs/US-States/US_Wisconsin.png)
+
+
+## Wyoming
+![Wyoming](../figs/US-States/US_Wyoming.png)
 
 

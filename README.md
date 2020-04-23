@@ -115,4 +115,8 @@ https://systems.jhu.edu/research/public-health/ncov/
 <b>Terms of Use:</b><br>
 
 This GitHub repo and its contents herein, including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, all rights reserved, is provided to the public strictly for educational and academic research purposes.  The Website relies upon publicly available data from multiple sources, that do not always agree. The Johns Hopkins University hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, and merchantability.  Reliance on the Website for medical guidance or use of the Website in commerce is strictly prohibited.
+<<<<<<< HEAD
 >>>>>>> 8f9846817e85859b1a31bccb29823c01939f8ec8
+=======
+>>>>>>> 708bf2159f9d6370b48c4192f8166dcb9523a929
+>>>>>>> 046e28c13433faa5783a7f89fca59bd8d6c7aa39
