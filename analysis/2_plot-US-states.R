@@ -63,7 +63,7 @@ for (state in states){
 	# Generate the plot.
 	plot <- plot_covid_cases(dt_US, country_region="United States", 
 				 province_state = state, category = "Deaths",
-				 log=FALSE)
+				 log=TRUE)
 	# Skip the loop's iteration if we are unable to generate a plot.
 	if (is.null(plot)) { 
 		next 
