@@ -1,4 +1,3 @@
-source("renv/activate.R")
 # Rprofile.
 
 # Startup.
