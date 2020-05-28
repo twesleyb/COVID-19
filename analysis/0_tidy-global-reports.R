@@ -57,7 +57,7 @@ response <- system(pull,intern=TRUE)
 # Stop if unable to read from remote repository.
 if (is.null(attr(response,"status"))) {
 	message(response) 
-} else if (attr(response,"status") == 1) {
+} else {
 	msg <- c("Unable to read from remote repository.\n",
 		 "Have you added the upstream repository? In the terminal, try:\n",
 		 "$ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git\n",
