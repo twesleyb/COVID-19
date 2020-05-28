@@ -16,6 +16,9 @@ save_plots = TRUE
 ## Set up the workspace.
 #---------------------------------------------------------------------
 
+# Load renv.
+renv::load(getrd())
+
 # Imports.
 suppressPackageStartupMessages({
 	library(grid)
@@ -60,7 +63,7 @@ for (state in states){
 	# Generate the plot.
 	plot <- plot_covid_cases(dt_US, country_region="United States", 
 				 province_state = state, category = "Deaths",
-				 log=FALSE)
+				 log=TRUE)
 	# Skip the loop's iteration if we are unable to generate a plot.
 	if (is.null(plot)) { 
 		next 
@@ -89,7 +92,7 @@ if (save_plots) {
 close(pbar)
 
 #---------------------------------------------------------------------
-## Add plots to README.
+## add plots to readme.
 #---------------------------------------------------------------------
 
 # Update README?
@@ -114,3 +117,42 @@ if (update_readme) {
 
 # Status.
 message("\nDone!")
+
+quit()
+
+#---------------------------------------------------------------------
+## Examine NC.
+#---------------------------------------------------------------------
+
+# Get NC's plot.
+nc <- "North Carolina"
+plot <- plots[[nc]]
+
+# Extract data from plot.
+df <- plot$data
+
+# Subset data -- remove data before first case.
+subdf <- df %>% filter(Cases > 0)
+
+# Log of x (time) and y (cases).
+subdf$x <- log(subdf$"Time (days)")
+subdf$y <- log(subdf$Cases)
+
+# Linear fit.
+fit <- lm(subdf$y ~ subdf$x)
+r2 <- summary(fit)$r.squared
+
+# Calculate p-value.
+f <- summary(fit)$fstatistic
+p <- pf(f[1], f[2], f[3], lower.tail=FALSE) # F-distribution
+attributes(p) <- NULL
+
+# Add linear fit to plot.
+plot <- plot + geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2], color = "black", linetype = "dashed")
+
+# Annotate with stats.
+plot <- plot + annotate("text", x = 0.5, y = 5, label = paste("R-sqr =",round(r2,3),"\n","P-val =",formatC(p,format="e")))
+
+# Save.
+ggsave("nc.tiff",plot)
+

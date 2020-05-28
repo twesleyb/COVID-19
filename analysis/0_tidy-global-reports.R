@@ -13,10 +13,14 @@
 ## Set up the workspace.
 #---------------------------------------------------------------------
 
+# Activate renv.
+# getrd() is a script in my .Rprofile. You can also find it in the TBmiscr
+# package.
+renv::activate(getrd())
+
 # Imports.
 suppressPackageStartupMessages({
 	library(dplyr)
-	library(TBmiscr)
 	library(data.table)
 })
 
@@ -31,7 +35,7 @@ rdatdir <- file.path(root,"data")
 datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
 
 # Load any functions in R/
-load_all()
+devtools::load_all()
 
 #---------------------------------------------------------------------
 ## Load the data.
