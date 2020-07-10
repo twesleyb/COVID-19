@@ -13,6 +13,10 @@
 ## Set up the workspace.
 #---------------------------------------------------------------------
 
+here <- getwd()
+root <- dirname(here)
+renv::load(root,quiet=TRUE)
+
 # Imports.
 suppressPackageStartupMessages({
 	library(grid)
@@ -28,7 +32,6 @@ suppressPackageStartupMessages({
 #devtools::install_github("twesleyb/TBmiscr")
 
 # Directories.
-root <- getrd()
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 datadir <- file.path(root,"data")

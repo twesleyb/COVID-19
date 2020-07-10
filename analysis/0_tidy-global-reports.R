@@ -16,7 +16,9 @@
 # Activate renv.
 # getrd() is a script in my .Rprofile. You can also find it in the TBmiscr
 # package.
-renv::activate(getrd())
+here <- getwd()
+root <- dirname(here)
+renv::load(root,quiet=TRUE)
 
 # Imports.
 suppressPackageStartupMessages({
@@ -28,7 +30,6 @@ suppressPackageStartupMessages({
 #devtools::install_github("twesleyb/TBmiscr")
 
 # Directories.
-root <- getrd()
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 rdatdir <- file.path(root,"data")
