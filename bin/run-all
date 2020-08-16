@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/env/ bash
 
 # Run the analysis.
 
-# Activate venv.
+# Activate conda19 venv.
 source ~/anaconda3/etc/profile.d/conda.sh
 conda activate covid19
 
