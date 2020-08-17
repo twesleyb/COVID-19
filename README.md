@@ -1,14 +1,12 @@
 # COVID-19 Data Repository
-_COVID-19 case data pulled from [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19),
-tidied, and available as an `R` package._
+_Global _COVID-19_ case data pulled from [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)._
 
-## COVID-19 cases in the United States
 
-See the [README](./analysis/README.md) in `analysis/` for plots of all US states and territories. 
+See the [README](./analysis/README.md) in `analysis/` for plots of COVID-19 cases in all US states and territories.
 
 For example, a plot of COVID-19 cases in __North Carolina__:
 <p align="center">
-<img src="./figs/US_North_Carolina.png"/>
+<img src="./figs/US-States/US_North_Carolina.png"/>
 </p>
 
 ## Usage
