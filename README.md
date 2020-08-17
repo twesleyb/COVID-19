@@ -1,19 +1,21 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # COVID-19 Data Repository
-_originally forked from
-[CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)_  
+_COVID-19 case data pulled from [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19),
+tidied, and available as an `R` package._
 
-## Description
-Tidy COVID-19 case data available as an `R` package.  
+## COVID-19 cases in the United States
+
+See the [README](./analysis/README.md) in `analysis/` for plots of all US states and territories. 
+
+For example, a plot of COVID-19 cases in __North Carolina__:
+<p align="center">
+<img src="./figs/US_North_Carolina.png"/>
+</p>
 
 ## Usage
-In R, download the `covid19` package from github:
+In R, download the `covid19` package from github: 
 ```R
 devtools::install_github("twesleyb/COVID-19")
-```
-Access COVID-19 case data with `data()`:
-```R
+
 # Load the covid19 library:
 library(covid19)
 
@@ -23,74 +25,16 @@ data(global_cases)
 # Load COVID cases in the US:
 data(united_states_cases)
 ```
-## COVID-19 cases in the United States
-See the [README.md](./analysis/README.md) in `COVID-19/analysis` to see plots of 
-COVID-19 cases in the United States.
 
 ## Data Sources
 
-Data in this repository are pulled from the `CSSEGISandData/COVID-19`. 
-This repository is currated by the __Johns Hopkins 
-University Center for Systems Science and Engineering__ 
-[(JHU CSSE)](https://systems.jhu.edu/).
+Data in this repository are from the Center for Systems Science and Engineering at Johns Hopkins University.
+The data is currated by John Hopkin's University Center for Systems Science and Engineering.
 
 The orignal authors reference the following data sources:  
 
-* World Health Organization [(WHO)](https://www.who.int/)
-* [COVID-19 Global Pandemic Real-time Report](http://3g.dxy.cn/newh5/view/pneumonia)
-* [BNO News](https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/)
-* National Health Commission of the People’s Republic of China [(NHC)](http://www.nhc.gov.cn/xcs/yqtb/list_gzbd.shtml)
-* China CDC [(CCDC)](http://weekly.chinacdc.cn/news/TrackingtheEpidemic.html)
-* [Hong Kong Department of Health](https://www.chp.gov.hk/en/features/102465.html)
-* [Macau Government](https://www.ssm.gov.mo/portal/)
-* [Taiwan CDC](https://sites.google.com/cdc.gov.tw/2019ncov/taiwan?authuser=0)
-* [United States CDC](https://www.cdc.gov/coronavirus/2019-ncov/index.html)
-* [Government of Canada](https://www.canada.ca/en/public-health/services/diseases/coronavirus.html)
-* [Australia Government Department of Health](https://www.health.gov.au/news/coronavirus-update-at-a-glance)
-* European Centre for Disease Prevention and Control [(ECDC)](https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases)
-* Ministry of Health Singapore [(MOH)](https://www.moh.gov.sg/covid
-* [Italy Ministry of Health](http://www.salute.gov.it/nuovocoronavi
-* [1Point3Arces](https://coronavirus.1point3acres.com
-* [WorldoMeters](https://www.worldometers.info/coronavir
-
-## License
-
-Per the authors' original terms of use, this GitHub repo and its contents herein, 
-including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, 
-all rights reserved, is provided to the public strictly for educational and academic 
-research purposes.  The Website relies upon publicly available data from multiple sources, 
-that do not always agree. The Johns Hopkins University hereby disclaims any and all 
-representations and warranties with respect to the Website, including accuracy, 
-fitness for use, and merchantability.  Reliance on the Website for medical guidance 
-or use of the Website in commerce is strictly prohibited.
-=======
-# 2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE
-=======
-# COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University
->>>>>>> ecb26cf5569b29bae62df343f302d708a1a0bc23
-
-
-This is the data repository for the 2019 Novel Coronavirus Visual Dashboard operated by the Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE). Also, Supported by ESRI Living Atlas Team and the Johns Hopkins University Applied Physics Lab (JHU APL).
-
-
-
-<b>Visual Dashboard (desktop):</b>
-https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
-
-<b>Visual Dashboard (mobile):</b>
-http://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61
-
-<b>Please cite our Lancet Article for any use of this data in a publication:</b>
-[An interactive web-based dashboard to track COVID-19 in real time](https://doi.org/10.1016/S1473-3099(20)30120-1)
-
-<b>Provided by Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE):</b>
-https://systems.jhu.edu/
-
-<b>DONATE to the CSSE dashboard team:</b> https://engineering.jhu.edu/novel-coronavirus-information/support-covid-19-dashboard-team/
-
-
-<b>DATA SOURCES:</b>
-This list includes a complete list of all sources ever used in the data set, since January 21, 2010. Some sources listed here (e.g., WHO, ECDC, US CDC, BNO News) are not currently relied upon as a source of data.
+> This list includes a complete list of all sources ever used in the data set, since January 21, 2010. 
+> Some sources listed here (e.g., WHO, ECDC, US CDC, BNO News) are not currently relied upon as a source of data.
 
 - Aggregated data sources:
   - World Health Organization (WHO): https://www.who.int/
@@ -220,63 +164,13 @@ This list includes a complete list of all sources ever used in the data set, sin
   - Netherlands National Institute for Health and Environment: https://experience.arcgis.com/experience/ea064047519040469acb8da05c0f100d
   - Iceland Directorate of Health and Department of Civil Protection and Emergency Management: https://www.covid.is/data
 
+## License
 
-
-<b>Embed our dashboard into your webpage:</b>
-
-```html
-<style>.embed-container {position: relative; padding-bottom: 80%; height: 0; max-width: 100%;} .embed-container iframe, .embed-container object, .embed-container iframe{position: absolute; top: 0; left: 0; width: 100%; height: 100%;} small{position: absolute; z-index: 40; bottom: 0; margin-bottom: -15px;}</style><div class="embed-container"><iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="COVID-19" src="https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6"></iframe></div>
-```
-
-<b>Acknowledgements:</b>
-We are grateful to the following organizations for supporting our Center’s COVID-19 mapping and modeling efforts:
-Financial Support: Johns Hopkins University, National Science Foundation (NSF), Bloomberg Philanthropies, Stavros Niarchos Foundation;
-Resource support: AWS, Slack, Github; Technical support: Johns Hopkins Applied Physics Lab (APL), Esri Living Atlas team
-
-<b>Additional Information about the Visual Dashboard:</b>
-https://systems.jhu.edu/research/public-health/ncov/
-
-<b>Contact Us: </b>
-
-* Email: jhusystems@gmail.com
-  
-  
-
-<b>Terms of Use:</b>
-
-1. This data set is licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) by the Johns Hopkins University on behalf of its Center for Systems Science in Engineering.  Copyright Johns Hopkins University 2020. 
-
-2. Attribute the data as the "COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University" or "JHU CSSE COVID-19 Data" for short, and the url: https://github.com/CSSEGISandData/COVID-19.  
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-This GitHub repo and its contents herein, including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, all rights reserved, is provided to the public strictly for educational and academic research purposes.  The Website relies upon publicly available data from multiple sources, that do not always agree. The Johns Hopkins University hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, and merchantability.  Reliance on the Website for medical guidance or use of the Website in commerce is strictly prohibited.
-<<<<<<< HEAD
->>>>>>> 8f9846817e85859b1a31bccb29823c01939f8ec8
-=======
->>>>>>> 708bf2159f9d6370b48c4192f8166dcb9523a929
->>>>>>> 046e28c13433faa5783a7f89fca59bd8d6c7aa39
-=======
-This GitHub repo and its contents herein, including all data, mapping, and analysis (“Website”), copyright 2020 Johns Hopkins University, all rights reserved, is provided to the public strictly for public health, educational, and academic research purposes. Redistribution of the Website or the aggregated data set underlying the Website is strictly prohibited. You are welcome to link to the Website, however. The Website relies upon publicly available data from multiple sources that do not always agree. The Johns Hopkins University hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, reliability, and non-infringement. Reliance on the Website for medical guidance or use of the Website in commerce is strictly prohibited. Any use of the Johns Hopkins’ names, logos, trademarks, and trade dress for promotional or commercial purposes is strictly prohibited.
->>>>>>> 598e32c94a957cafee114d36d8e51dc8a6865b15
-=======
-1. This website and its contents herein, including all data, mapping, and analysis (“Website”), copyright 2020 Johns Hopkins University, all rights reserved, is provided solely for non-profit public health, educational, and academic research purposes. You should not rely on this Website for medical advice or guidance.  
-<<<<<<< HEAD
-2. Use of the Website by commercial parties and/or in commerce is strictly prohibited.   Redistribution of the Website or the aggregated data set underlying the Website is strictly prohibited.   
-3. When linking to the website, attribute the Website as the COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University, or the COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University.
-4. The Website relies upon publicly available data from multiple sources that do not always agree. The Johns Hopkins University hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, reliability, completeness, and non-infringement of third party rights. 
-5. Any use of the Johns Hopkins’ names, logos, trademarks, and/or trade dress in a factually inaccurate manner or for marketing, promotional or commercial purposes is strictly prohibited.  
-6. These terms and conditions are subject to change.   Your use of the Website constitutes your acceptance of these terms and conditions and any future modifications thereof.
->>>>>>> ecb26cf5569b29bae62df343f302d708a1a0bc23
-=======
-2. Use of the Website by commercial parties and/or in commerce is strictly prohibited.   
-3. Redistribution of the Website or the aggregated data set underlying the Website is strictly prohibited.   
-4. When linking to the website, attribute the Website as the COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University, or the COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University.
-5. The Website relies upon publicly available data from multiple sources that do not always agree. The Johns Hopkins University hereby disclaims any and all representations and warranties with respect to the Website, including accuracy, fitness for use, reliability, completeness, and non-infringement of third party rights. 
-6. Any use of the Johns Hopkins’ names, logos, trademarks, and/or trade dress in a factually inaccurate manner or for marketing, promotional or commercial purposes is strictly prohibited.  
-7. These terms and conditions are subject to change.   Your use of the Website constitutes your acceptance of these terms and conditions and any future modifications thereof.
->>>>>>> 4f128103cd743fad6123eb350f8b1a83bae731b2
-=======
-3. For publications that use the data, please cite the following publication: "Dong E, Du H, Gardner L. An interactive web-based dashboard to track COVID-19 in real time. Lancet Inf Dis. 20(5):533-534. doi: 10.1016/S1473-3099(20)30120-1"
->>>>>>> b3817944a504537287267e406b519605d8172126
+Per the authors' original terms of use, this GitHub repo and its contents herein, 
+including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, 
+all rights reserved, is provided to the public strictly for educational and academic 
+research purposes.  The Website relies upon publicly available data from multiple sources, 
+that do not always agree. The Johns Hopkins University hereby disclaims any and all 
+representations and warranties with respect to the Website, including accuracy, 
+fitness for use, and merchantability.  Reliance on the Website for medical guidance 
+or use of the Website in commerce is strictly prohibited.
