@@ -3,4 +3,5 @@
 # Update a R packages documentation.
 
 # NOTE: You should be in a subdirectory of the project.
+renv::load(dirname(getwd()))
 devtools::document()

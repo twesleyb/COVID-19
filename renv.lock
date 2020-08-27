@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.0.1",
+    "Version": "3.6.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -64,8 +64,8 @@
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteUsername": "twesleyb",
       "RemoteRepo": "TBmiscr",
+      "RemoteUsername": "twesleyb",
       "RemoteRef": "master",
       "RemoteSha": "51a81d4eb384f5990fc6480e721c957ffd5fc80f",
       "Hash": "1e8c77f7f543bbddfb081e5bdbdc4993"
