@@ -5,6 +5,7 @@
 ## Input:
 # COVID-19 daily reports in:
 # * root/csse_covid_19_data/csse_covid_19_daily_reports/
+reports <- "csse_covid_19_data/csse_covid_19_daily_reports"
 
 ## Output:
 # * root/data/global_cases.csv
@@ -32,17 +33,17 @@ suppressPackageStartupMessages({
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 rdatdir <- file.path(root,"data")
-datadir <- file.path(root,"csse_covid_19_data/csse_covid_19_daily_reports")
+datadir <- file.path(root,reports)
 
 # Load any functions in R/
 devtools::load_all()
 
-#---------------------------------------------------------------------
+#----------------------------------------------------------
 ## Load the data.
-#---------------------------------------------------------------------
+#----------------------------------------------------------
 
-# Make sure that the local repository is up to date with master:
-# CSSEGISandData/COVID-19.
+# Make sure that the local repository is up to date with
+# master: CSSEGISandData/COVID-19.
 # NOTE: `git pull` Assumes you have already added master
 # repository as upstream:
 # $ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git
