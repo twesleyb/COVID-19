@@ -5,10 +5,10 @@
 ## User parameters to change.
 
 ## Input:
-# * root/data/global_cases.csv 
+# * root/data/global_cases.csv
 
 ## Output:
-# * root/data/united_states_cases.csv 
+# * root/data/united_states_cases.csv
 # * root/data/united_states_cases.RData
 
 #---------------------------------------------------------------------
@@ -63,7 +63,7 @@ is_state <- dt_US$Province_State %in% states
 #all(is_state)
 # Nope, so we need to figure out where/what these other places are.
 
-# How many don't match? 
+# How many don't match?
 dt_states <- unique(dt_US$Province_State)
 not_a_state <- unique(dt_states[dt_states %notin% states])
 #length(not_a_state)
@@ -91,7 +91,7 @@ idx <- grepl(", [A-Z]{2}$",dt_US$Province_State)
 state_ids <- sapply(strsplit(dt_US$Province_State[idx],", "),"[",2)
 dt_US$Province_State[idx] <- states[state_ids]
 
-# Check again, how many don't match? 
+# Check again, how many don't match?
 dt_states <- unique(dt_US$Province_State)
 still_not_a_state <- unique(dt_states[dt_states %notin% states])
 #length(still_not_a_state)
@@ -100,7 +100,7 @@ still_not_a_state <- unique(dt_states[dt_states %notin% states])
 idx <- grepl("Diamond Princess",dt_US$Province_State)
 dt_US$Province_State[idx] <- "Diamond Princess"
 
-# Let's combine data from the Grand Princess cruise ship. 
+# Let's combine data from the Grand Princess cruise ship.
 idx <- grepl("Grand Princess",dt_US$Province_State)
 dt_US$Province_State[idx] <- "Grand Princess"
 
@@ -139,7 +139,7 @@ dt_US <- dt_US %>% filter(Province_State != "Wuhan Evacuee")
 
 # Finally, add American Samoa and Northern Mariana Islands to vector of states.
 # The NMI is an American commonwealth.
-states <- c(states,"AS" = "American Samoa", 
+states <- c(states,"AS" = "American Samoa",
 	    NMI="Northern Mariana Islands")
 
 # Final check:
@@ -172,11 +172,11 @@ save(united_states_cases,file=myfile,version=2)
 # Summary.
 not_a_state <- states[which(states %notin% state.name)]
 n <- length(states) - length(not_a_state)
-tab <- dt_US %>% group_by(Category) %>% 
+tab <- dt_US %>% group_by(Category) %>%
 	summarize(Total=formatC(max(Cases),format="d",big.mark=","))
 
 # Status.
-message(paste("\nSummary of COVID-19 cases from",n, 
+message(paste("\nSummary of COVID-19 cases from",n,
 	      "US states and", length(not_a_state),
 	      "provinces:"))
 knitr::kable(tab)

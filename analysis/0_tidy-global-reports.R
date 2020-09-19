@@ -3,22 +3,22 @@
 # Pull COVID-19 data from Github and tidy it up.
 
 ## Input:
-# COVID-19 daily reports in root/csse_covid_19_data/csse_covid_19_daily_reports/
+# COVID-19 daily reports in:
+# * root/csse_covid_19_data/csse_covid_19_daily_reports/
 
 ## Output:
-# * root/data/global_cases.csv 
+# * root/data/global_cases.csv
 # * root/data/global_cases.RData
 
-#---------------------------------------------------------------------
+#----------------------------------------------------------
 ## Set up the workspace.
-#---------------------------------------------------------------------
+#----------------------------------------------------------
 
-# Activate renv.
-# getrd() is a script in my .Rprofile. You can also find it in the TBmiscr
-# package.
+# Activate renv
 here <- getwd()
 root <- dirname(here)
 renv::load(root,quiet=TRUE)
+quit()
 
 # Imports.
 suppressPackageStartupMessages({
@@ -42,9 +42,9 @@ devtools::load_all()
 ## Load the data.
 #---------------------------------------------------------------------
 
-# Make sure that the local repository is up to date with master: 
-# CSSEGISandData/COVID-19. 
-# NOTE: `git pull` Assumes you have already added master 
+# Make sure that the local repository is up to date with master:
+# CSSEGISandData/COVID-19.
+# NOTE: `git pull` Assumes you have already added master
 # repository as upstream:
 # $ git remote add upstream git://github.com/CSSEGISandData/COVID-19.git
 # $ git fetch upstream
@@ -61,7 +61,7 @@ response <- system(pull,intern=TRUE)
 
 # Stop if unable to read from remote repository.
 if (is.null(attr(response,"status"))) {
-	message(response) 
+	message(response)
 } else {
 	msg <- c("Unable to read from remote repository.\n",
 		 "Have you added the upstream repository? In the terminal, try:\n",
@@ -77,14 +77,14 @@ names(data_files) <- tools::file_path_sans_ext(basename(data_files))
 all_data <- lapply(data_files,fread)
 
 # Define a function that cleans-up the column names.
-fix_colnames <- function(x) { 
+fix_colnames <- function(x) {
 	# Replace "/" and " " with "_".
 	colnames(x) <- gsub("/|\\ ","_",colnames(x))
 	return(x)
 }
 all_data <- lapply(all_data,fix_colnames)
 
-# Combine the data into a single data.table. 
+# Combine the data into a single data.table.
 dt_combined <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 
 #--------------------------------------------------------------------
@@ -93,12 +93,12 @@ dt_combined <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
 
 # Melt the combined data into a tidy data.table.
 dt_covid <-  melt(dt_combined,
-		  id.vars=c("Country_Region","Province_State","Date"), 
+		  id.vars=c("Country_Region","Province_State","Date"),
 		  measure.vars = c("Deaths","Confirmed","Recovered"),
 		  variable.name="Category",value.name="Cases")
 
 # Summarize the number of cases by day.
-dt_covid <- dt_covid %>% 
+dt_covid <- dt_covid %>%
 	group_by(Country_Region,Province_State,Date,Category) %>%
 	summarize(Cases = sum(Cases,na.rm=TRUE))
 
@@ -111,7 +111,7 @@ dt_covid <- dt_covid %>% setorder(Country_Region,Province_State,Category,Date)
 #---------------------------------------------------------------------
 ## Clean-up the Countries column.
 #---------------------------------------------------------------------
-# Combine data from countries that are listed multiple times due to 
+# Combine data from countries that are listed multiple times due to
 # multiple names.
 
 # Remove Country == Cruise Ship
@@ -220,14 +220,14 @@ countries <- unique(dt_covid$Country_Region)
 n_countries <- length(countries)
 
 # Summarize the total number of category::cases by country.
-covid_summary <- dt_covid %>% group_by(Country_Region,Category) %>% 
+covid_summary <- dt_covid %>% group_by(Country_Region,Category) %>%
 	summarize(n = max(Cases))
 
 # Determine the global number of cases by category.
 message(paste0("\nSummary of COVID-19 cases compiled from ",
 	       n_countries," countries since ",
 	       start," (",elapsed," days):"))
-tab <- covid_summary %>% group_by(Category) %>% 
+tab <- covid_summary %>% group_by(Category) %>%
 	summarize(Total = formatC(sum(n),format="d",big.mark=","))
 knitr::kable(tab)
 message("\n")

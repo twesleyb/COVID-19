@@ -2,6 +2,7 @@
 ARCHIVE/
 downloads/
 raw/
+bin/
 
 # Ignore .RData
 .RData
