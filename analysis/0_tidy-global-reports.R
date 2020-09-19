@@ -18,7 +18,6 @@
 here <- getwd()
 root <- dirname(here)
 renv::load(root,quiet=TRUE)
-quit()
 
 # Imports.
 suppressPackageStartupMessages({
