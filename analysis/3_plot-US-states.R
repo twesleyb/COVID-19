@@ -10,7 +10,8 @@ save_plots = TRUE
 # * root/data/united_states_cases.csv
 
 ## Output:
-# * plots for every state saved in root/analysis/README.md
+# plots for every state saved in:
+# * root/analysis/README.md
 
 #----------------------------------------------------------
 ## Set up the workspace
@@ -35,15 +36,15 @@ suppressPackageStartupMessages({
 # To install miscellaneous R functions from TBmicr:
 #devtools::install_github("twesleyb/TBmiscr")
 
-# Directories.
+# Project Directories:
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 datadir <- file.path(root,"data")
 
-# Load functions and data associated with covid19 package.
+# Load local functions and data in root/data and root/R
 devtools::load_all()
 
-# Load the data.
+# Load the data
 data(united_states_cases)
 dt_US <- united_states_cases
 
@@ -58,13 +59,19 @@ states <- unique(dt_US$Province_State)
 # Loop to generate and save plots for all US states.
 message("\nGenerating plots for all US States and provinces.")
 plots <- list()
+
 # Initialize progres bar.
 pbar <- txtProgressBar(max=length(states),style=3)
+
 for (state in states){
-	# Generate the plot.
-	plot <- plot_covid_cases(dt_US, country_region="United States",
-				 province_state = state, category = "Deaths",
+
+	# Generate a state's plot
+	plot <- plot_covid_cases(dt_US,
+				 country_region="United States",
+				 province_state = state,
+				 cases = "Deaths",
 				 log=TRUE)
+
 	# Skip the loop's iteration if we are unable to generate a plot.
 	if (is.null(plot)) {
 		next
