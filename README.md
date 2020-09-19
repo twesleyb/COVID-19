@@ -26,7 +26,9 @@ data(united_states_cases)
 ```
 
 You might also clone this repository and run `0_run-all.sh` to run the analysis.
-[]()
+<p align="center">
+<img src="./figs/usage.gif" height="500" />
+</p>
 
 ## Data Sources
 
