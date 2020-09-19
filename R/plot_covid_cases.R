@@ -1,12 +1,12 @@
 #' plot_covid_cases
-#' @export 
+#' @export
 plot_covid_cases <- function(dt_covid,country_region,province_state,
 			     category=c("Deaths","Confirmed","Recovered"),
 			     log=FALSE){
 
 	# Insure the provided country is in the data.
 	check <- country_region %in% dt_covid$Country_Region
-	if (!check) {  
+	if (!check) {
 		message(paste0(" Warning: '",country_region,"'",
 			   " is not in dt_covid$Country_Region."))
 		return(NULL)
@@ -15,7 +15,7 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 	# Insure that the provided state is in the data.
 	# FIXME: doesn't work if no state is provided.
 #	check <- province_state %in% dt_covid$Province_State
-#	if (!check) {  
+#	if (!check) {
 #		message(paste0(" Warning: '",province_state,"'",
 #			   " is not in dt_covid$Province_State."))
 #		return(NULL)
@@ -26,32 +26,33 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 		# Just a country.
 		subdt <- dt_covid %>% filter(Country_Region == country_region)
 	} else {
-		subdt <- dt_covid %>% filter(Country_Region == country_region, 
+		subdt <- dt_covid %>% filter(Country_Region == country_region,
 					     Province_State == province_state)
 	}
 
 	# Check that data subset is not of length 0.
 	check <- dim(subdt)[1] > 0
 	id <- paste(country_region,province_state,sep=":")
-	if (!check) { 
+	if (!check) {
 		message(paste0(" Warning: There is no data for ",id,"."))
 		return(NULL)
 	}
 
 	# Summarize cases by day.
-	df <- subdt %>% group_by(Category,Date) %>% 
-		summarize(Cases = sum(Cases)) %>% as.data.table()
+	df <- subdt %>% group_by(Category,Date) %>%
+		summarize(Cases = sum(Cases),.groups="drop")
+	%>% as.data.table()
 
 	# Check that there are some cases.
 	check <- any(df$Cases > 0)
-	if (!check) { 
+	if (!check) {
 		message(paste0(" Warning: There is no data for ",id,"."))
 		return(NULL)
 	}
 
 	# Determine date of case zero.
-	p0 <- df %>% filter(Cases>0) %>% group_by(Category) %>% 
-		summarize(Date=min(Date)) %>% 
+	p0 <- df %>% filter(Cases>0) %>% group_by(Category) %>%
+		summarize(Date=min(Date).groups="drop") %>%
 		data.table::transpose(make.names="Category")
 
 	# Check that there is a case of provided category.
@@ -67,12 +68,12 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 					   units="days"))
 
 	# Summarize COVID-19 cases.
-	tab <- df %>% group_by(Category) %>% 
-		summarize("Total" = max(Cases))
+	tab <- df %>% group_by(Category) %>%
+		summarize("Total" = max(Cases),.groups="drop")
 	tab$Total <- formatC(tab$Total,big.mark=",")
 
 	# Define plot colors based on COVID category.
-	plot_colors <- list("Deaths" = c(point="darkred", 
+	plot_colors <- list("Deaths" = c(point="darkred",
 					 path="firebrick"),
 			    "Recovered" = c(point="darkgreen",
 					    path="green"),
@@ -86,15 +87,15 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 		plot <- ggplot(df %>% filter(Category==category),
 			       aes(x=log(`Time (days)`),
 				   y=log(Cases),
-				   group=Category,color=Category)) 
+				   group=Category,color=Category))
 		})
 	} else {
 		plot <- ggplot(df %>% filter(Category==category),
 			       aes(x=`Time (days)`,y=Cases,
-				   group=Category,color=Category)) 
+				   group=Category,color=Category))
 	}
 
-	# Add geoms to plot. 
+	# Add geoms to plot.
 	plot <- plot +
 		geom_point(size=1.5,
 			   color=plot_colors[[category]]["point"],
@@ -102,31 +103,31 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 		geom_path(size=0.75,
 			  color=plot_colors[[category]]["path"],
 			  na.rm=TRUE) +
-		ggtitle(paste(country_region,province_state,sep=": ")) 
+		ggtitle(paste(country_region,province_state,sep=": "))
 
-	# Customize plot theme. 
-	plot <- plot + 
+	# Customize plot theme.
+	plot <- plot +
 		theme(text = element_text(family = "Arial"),
 		      plot.title = element_text(color = "black",
-						size = 11, 
-						face = "bold", 
+						size = 11,
+						face = "bold",
 						hjust = 0.5,
 						family = "Arial"),
 		      axis.title.x = element_text(color = "black",
-						  size = 11, 
+						  size = 11,
 						  face = "bold",
 						  family = "Arial"),
-		      axis.title.y = element_text(color = "black", 
-						  size = 11, 
+		      axis.title.y = element_text(color = "black",
+						  size = 11,
 						  face = "bold",
 						  family = "Arial"),
-		      axis.text.x = element_text(color = "black", 
-						 size = 11, 
-						 angle = 45, 
+		      axis.text.x = element_text(color = "black",
+						 size = 11,
+						 angle = 45,
 						 hjust = 1.0,
 						 family = "Arial"),
-		      panel.border = element_rect(colour = "black", 
-						  fill=NA, 
+		      panel.border = element_rect(colour = "black",
+						  fill=NA,
 						  size=0.75))
 
 		# Extract plot build for adding annotations to plot.
@@ -140,11 +141,11 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 
 		# Annotate with data source url.
 		url <- "https://github.com/CSSEGISandData/COVID-19"
-		text_box <- annotate("text", 
+		text_box <- annotate("text",
 				 fontface = "italic",
 				 size = 3,
 				 colour = "darkgray",
-				 x=xrange["min"] + 0.72*xrange["delta"], 
+				 x=xrange["min"] + 0.72*xrange["delta"],
 				 y=yrange["min"],
 				 label = paste("Source:",url))
 		plot <- plot + text_box
@@ -169,12 +170,12 @@ plot_covid_cases <- function(dt_covid,country_region,province_state,
 		     t = 1, b = nrow(tab)-2, l = 1, r = ncol(tab))
 
 		# Add gtable to plot.
-		plot <- plot + 
+		plot <- plot +
 			annotation_custom(
 				g,
 			       	xmin = xrange["min"]-0.70*xrange["delta"],
 			        xmax=xrange["max"],
-			        ymin = yrange["min"] + 0.75 * yrange["delta"], 
+			        ymin = yrange["min"] + 0.75 * yrange["delta"],
 			        ymax=yrange["max"])
 
 		# Return the plot.
