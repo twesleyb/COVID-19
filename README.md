@@ -1,5 +1,5 @@
 # COVID-19 Data Repository
-_Global _COVID-19_ case data pulled from [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19), 
+_Global _COVID-19_ case data pulled from [CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19),
 tidied, and available as an_ `R` _package._
 
 See the [README](./analysis/README.md) in `analysis/` for plots of COVID-19 cases in all US states and territories.
@@ -10,7 +10,7 @@ For example, a plot of COVID-19 cases in __North Carolina__:
 </p>
 
 ## Usage
-In R, download the `covid19` package from github: 
+In R, download the `covid19` package from github:
 ```R
 devtools::install_github("twesleyb/COVID-19")
 
@@ -22,31 +22,35 @@ data(global_cases)
 
 # Load COVID cases in the US:
 data(united_states_cases)
+
 ```
+
+You might also clone this repository and run `0_run-all.sh` to run the analysis.
+[]()
 
 ## Data Sources
 
 Data in this repository are from the Center for Systems Science and Engineering at Johns Hopkins University.
 The data is currated by John Hopkin's University Center for Systems Science and Engineering.
 
-The orignal authors reference the following data sources:  
+The orignal authors reference the following data sources:
 
-> This list includes a complete list of all sources ever used in the data set, since January 21, 2010. 
+> This list includes a complete list of all sources ever used in the data set, since January 21, 2010.
 > Some sources listed here (e.g., WHO, ECDC, US CDC, BNO News) are not currently relied upon as a source of data.
 
 - Aggregated data sources:
   - World Health Organization (WHO): https://www.who.int/
-  - European Centre for Disease Prevention and Control (ECDC): https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases 
+  - European Centre for Disease Prevention and Control (ECDC): https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases
   - DXY.cn. Pneumonia. 2020. http://3g.dxy.cn/newh5/view/pneumonia
   - US CDC: https://www.cdc.gov/coronavirus/2019-ncov/index.html
   - BNO News: https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/
-  - WorldoMeters: https://www.worldometers.info/coronavirus/  
-  - 1Point3Arces: https://coronavirus.1point3acres.com/en  
+  - WorldoMeters: https://www.worldometers.info/coronavirus/
+  - 1Point3Arces: https://coronavirus.1point3acres.com/en
   - COVID Tracking Project: https://covidtracking.com/data. (US Testing and Hospitalization Data. We use the maximum reported value from "Currently" and "Cumulative" Hospitalized for our hospitalization number reported for each state.)
   - Los Angeles Times: https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/
   - The Mercury News: https://www.mercurynews.com/tag/coronavirus/
 
-- US data sources at the state (Admin1) or county/city (Admin2) level:  
+- US data sources at the state (Admin1) or county/city (Admin2) level:
   - Washington State Department of Health: https://www.doh.wa.gov/emergencies/coronavirus
   - Maryland Department of Health: https://coronavirus.maryland.gov/
   - New York State Department of Health: https://health.data.ny.gov/Health/New-York-State-Statewide-COVID-19-Testing/xdss-u53e/data
@@ -62,7 +66,7 @@ The orignal authors reference the following data sources:
   - St. Louis City Department of Health: https://www.stlouis-mo.gov/covid-19/data/#totalsByDate
   - St. Louis County: https://stlcorona.com/resources/covid-19-statistics1/
   - Massachusetts: https://www.mass.gov/info-details/covid-19-response-reporting
-  - Michigan: https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html 
+  - Michigan: https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html
   - Illinois Department of Public Health: https://dph.illinois.gov/covid19
   - Indiana State Department of Health: https://hub.mph.in.gov/dataset?q=COVID
   - Connecticut Department of Public Health: https://data.ct.gov/stories/s/COVID-19-data/wa3g-tfvc/
@@ -91,10 +95,10 @@ The orignal authors reference the following data sources:
   - Lancaster County: https://covid-19-lancastercountypa.hub.arcgis.com/
   - Chester County: https://chesco.maps.arcgis.com/apps/opsdashboard/index.html#/975082d579454c3ca7877db0a44e61ca
   - Louisiana Department of Health: http://ldh.la.gov/coronavirus/
-  - Government of The District of Columbia: https://coronavirus.dc.gov/page/coronavirus-data 
+  - Government of The District of Columbia: https://coronavirus.dc.gov/page/coronavirus-data
   - North Dakota Department of Health: https://www.health.nd.gov/diseases-conditions/coronavirus/north-dakota-coronavirus-cases
   - Oklahoma State Department of Health: https://looker-dashboards.ok.gov/embed/dashboards/44
-  - Guam Department of Public Health and Social Services: http://dphss.guam.gov/covid-19/ 
+  - Guam Department of Public Health and Social Services: http://dphss.guam.gov/covid-19/
   - New Mexico Department of Health: https://cvprovider.nmhealth.org/public-dashboard.html
   - Kentucky Department of Public Health: https://kygeonet.maps.arcgis.com/apps/opsdashboard/index.html#/543ac64bc40445918cf8bc34dc40e334
   - Georgia Department of Public Health: https://dph.georgia.gov/covid-19-daily-status-report
@@ -162,7 +166,7 @@ The orignal authors reference the following data sources:
   - Virgin Islands Department of Health: https://www.covid19usvi.com/
   - Vermont Department of Health: https://www.healthvermont.gov/response/coronavirus-covid-19/current-activity-vermont
 
-  
+
 - Non-US data sources at the country/region (Admin0) or state/province (Admin1) level:
   - National Health Commission of the People’s Republic of China (NHC):
     http://www.nhc.gov.cn/xcs/yqtb/list_gzbd.shtml
@@ -183,7 +187,7 @@ The orignal authors reference the following data sources:
   - Ministry of Health, Republic of Kosovo: https://kosova.health/ and https://covidks.s3.amazonaws.com/data.json
   - Berliner Morgenpost (Germany): https://interaktiv.morgenpost.de/corona-virus-karte-infektionen-deutschland-weltweit/
   - rtve (Spain): https://www.rtve.es/noticias/20200514/mapa-del-coronavirus-espana/2004681.shtml
-  - Ministry of Health, Republic of Serbia: https://covid19.rs/homepage-english/ 
+  - Ministry of Health, Republic of Serbia: https://covid19.rs/homepage-english/
   - Chile: https://www.minsal.cl/nuevo-coronavirus-2019-ncov/casos-confirmados-en-chile-covid-19/
   - Chile: https://www.gob.cl/coronavirus/cifrasoficiales/
   - Brazil Ministry of Health: https://covid.saude.gov.br/
@@ -205,11 +209,11 @@ The orignal authors reference the following data sources:
 
 ## License
 
-Per the authors' original terms of use, this GitHub repo and its contents herein, 
-including all data, mapping, and analysis, copyright 2020 Johns Hopkins University, 
-all rights reserved, is provided to the public strictly for educational and academic 
-research purposes.  The Website relies upon publicly available data from multiple sources, 
-that do not always agree. The Johns Hopkins University hereby disclaims any and all 
-representations and warranties with respect to the Website, including accuracy, 
-fitness for use, and merchantability.  Reliance on the Website for medical guidance 
+Per the authors' original terms of use, this GitHub repo and its contents herein,
+including all data, mapping, and analysis, copyright 2020 Johns Hopkins University,
+all rights reserved, is provided to the public strictly for educational and academic
+research purposes.  The Website relies upon publicly available data from multiple sources,
+that do not always agree. The Johns Hopkins University hereby disclaims any and all
+representations and warranties with respect to the Website, including accuracy,
+fitness for use, and merchantability.  Reliance on the Website for medical guidance
 or use of the Website in commerce is strictly prohibited.
