@@ -6,7 +6,7 @@ See the [README](./analysis/README.md) in `analysis/` for plots of COVID-19 case
 
 For example, a plot of COVID-19 cases in __North Carolina__:
 <p align="center">
-<img src="./figs/US-States/US_North_Carolina.png" height="500" />
+<img src="./figs/US-States/US_North_Carolina.png" />
 </p>
 
 ## Usage
