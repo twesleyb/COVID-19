@@ -8,6 +8,7 @@ raw/
 
 # Ignore renv
 renv/
+renv.lock
 
 # Ignore temporary files.
 *.swo
