@@ -32,14 +32,8 @@ You might also clone this repository and run `0_run-all.sh` to run the analysis.
 
 ## Data Sources
 
-<<<<<<< HEAD
 Data in this repository are from the Center for Systems Science and Engineering at Johns Hopkins University.
 The data is currated by John Hopkin's University Center for Systems Science and Engineering.
-=======
-<b>DONATE to the CSSE dashboard team:</b> https://engineering.jhu.edu/covid-19/support-the-csse-covid-19-dashboard-team/
->>>>>>> 0c29b5b80ea6e5b7043716443ab8fc032c8c28e0
-
-The orignal authors reference the following data sources:
 
 > This list includes a complete list of all sources ever used in the data set, since January 21, 2010.
 > Some sources listed here (e.g., WHO, ECDC, US CDC, BNO News) are not currently relied upon as a source of data.
@@ -213,14 +207,11 @@ The orignal authors reference the following data sources:
   - Scottish Government: https://www.gov.scot/publications/coronavirus-covid-19-trends-in-daily-data/
   - Netherlands National Institute for Health and Environment: https://experience.arcgis.com/experience/ea064047519040469acb8da05c0f100d
   - Iceland Directorate of Health and Department of Civil Protection and Emergency Management: https://www.covid.is/data
-<<<<<<< HEAD
   - Luxembourg Government Ministry of Health: https://msan.gouvernement.lu/en/graphiques-evolution.html
+  - Luxembourg Government: https://data.public.lu/fr/datasets/covid-19-rapports-journaliers/#_
+
 
 ## License
-=======
-  - Luxembourg Government: https://data.public.lu/fr/datasets/covid-19-rapports-journaliers/#_
-    
->>>>>>> 0c29b5b80ea6e5b7043716443ab8fc032c8c28e0
 
 Per the authors' original terms of use, this GitHub repo and its contents herein,
 including all data, mapping, and analysis, copyright 2020 Johns Hopkins University,

@@ -3,6 +3,9 @@ ARCHIVE/
 downloads/
 raw/
 bin/
+.Rprofile
+renv.lock
+renv/
 
 # Ignore .RData
 .RData
