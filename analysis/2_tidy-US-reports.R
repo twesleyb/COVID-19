@@ -21,10 +21,13 @@
 ## Set up the workspace
 #----------------------------------------------------------
 
-# Load renv.
+# load renv
 here <- getwd()
 root <- dirname(here)
-renv::load(root,quiet=TRUE)
+
+if ("renv" %in% rownames(installed.packages())) {
+	renv::load(root,quiet=TRUE)
+}
 
 # Imports.
 suppressPackageStartupMessages({
@@ -179,7 +182,7 @@ save(united_states_cases,file=myfile,version=2)
 not_a_state <- states[which(states %notin% state.name)]
 n <- length(states) - length(not_a_state)
 tab <- dt_US %>% group_by(Category) %>%
-	summarize(Total=formatC(max(Cases),format="d",big.mark=","),.group="drop")
+	summarize(Total=formatC(max(Cases),format="d",big.mark=","),.groups="drop")
 
 # Status.
 message(paste("\nSummary of COVID-19 cases from",n,

@@ -1,6 +1,6 @@
 # COVID-19 Deaths by US State
 
-_last update: 2020-10-25_
+_last update: 2020-12-26_
 
 ## Alabama
 ![Alabama](../figs/US-States/US_Alabama.png)

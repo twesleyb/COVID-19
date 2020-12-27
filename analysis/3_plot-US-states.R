@@ -20,7 +20,10 @@ save_plots = TRUE
 # Load renv
 here <- getwd()
 root <- dirname(here)
-renv::load(root,quiet=TRUE)
+
+if ("renv" %in% rownames(installed.packages())) {
+  renv::load(root,quiet=TRUE)
+}
 
 # Imports
 suppressPackageStartupMessages({
