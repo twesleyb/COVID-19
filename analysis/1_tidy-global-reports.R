@@ -18,7 +18,7 @@ reports <- "csse_covid_19_data/csse_covid_19_daily_reports"
 # Activate renv
 here <- getwd()
 root <- dirname(here)
-renv::load(root,quiet=TRUE)
+#renv::load(root,quiet=TRUE)
 
 # Imports.
 suppressPackageStartupMessages({
@@ -33,7 +33,7 @@ suppressPackageStartupMessages({
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 rdatdir <- file.path(root,"data")
-datadir <- file.path(root,reports)
+datadir <- file.path(root, reports)
 
 # Load any functions in R/
 devtools::load_all()
