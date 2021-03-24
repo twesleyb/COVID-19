@@ -21,13 +21,8 @@
 ## Set up the workspace
 #----------------------------------------------------------
 
-# load renv
 here <- getwd()
 root <- dirname(here)
-
-if ("renv" %in% rownames(installed.packages())) {
-	renv::load(root,quiet=TRUE)
-}
 
 # Imports.
 suppressPackageStartupMessages({

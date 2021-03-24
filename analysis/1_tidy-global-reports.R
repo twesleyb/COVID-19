@@ -5,6 +5,10 @@
 # description: Pull COVID-19 data from CSSE Github and then tidy it up
 
 ## Input:
+
+# project root
+root <- "~/projects/covid19"
+
 # COVID-19 daily reports in:
 # * root/csse_covid_19_data/csse_covid_19_daily_reports/
 reports <- "csse_covid_19_data/csse_covid_19_daily_reports"
@@ -13,36 +17,26 @@ reports <- "csse_covid_19_data/csse_covid_19_daily_reports"
 # * root/data/global_cases.csv
 # * root/data/global_cases.RData
 
-#----------------------------------------------------------
-## Set up the workspace.
-#----------------------------------------------------------
 
-# Activate renv
-here <- getwd()
-root <- dirname(here)
-#renv::load(root,quiet=TRUE)
+## ---- Set up the workspace
 
-# Imports.
-suppressPackageStartupMessages({
-	library(dplyr)
-	library(data.table)
-})
-
-# To install miscellaneous functions from TBmicr:
-#devtools::install_github("twesleyb/TBmiscr")
-
-# Directories.
+# project directories
 funcdir <- file.path(root,"R")
 figsdir <- file.path(root,"figs")
 rdatdir <- file.path(root,"data")
 datadir <- file.path(root, reports)
 
-# Load any functions in R/
-devtools::load_all()
+# imports
+suppressPackageStartupMessages({
+	library(dplyr)
+	library(data.table)
+})
 
-#----------------------------------------------------------
-## Load the data.
-#----------------------------------------------------------
+# Load any functions in R/
+devtools::load_all(root)
+
+
+## ---- Load the data
 
 # Make sure that the local repository is up to date with
 # master: CSSEGISandData/COVID-19.
@@ -56,12 +50,12 @@ devtools::load_all()
 # $ git fetch upstream master
 # $ git checkout upstream/master -- csse_covid_19_data/csse_covid_19_daily_reports
 
-# Pull data from upstream repo.
+# pull data from upstream repo
 message("\nPulling data from upstream repository.")
 pull <- "git pull upstream master"
 response <- system(pull,intern=TRUE)
 
-# Stop if unable to read from remote repository.
+# stop if unable to read from remote repository
 if (is.null(attr(response,"status"))) {
 	message(response)
 } else {
@@ -73,25 +67,41 @@ if (is.null(attr(response,"status"))) {
 	stop(msg)
 }
 
-# Load the data into a list.
+# Load the data into a list
 data_files <- list.files(datadir,pattern=".csv",full.names=TRUE)
 names(data_files) <- tools::file_path_sans_ext(basename(data_files))
-all_data <- lapply(data_files,fread)
+all_data <- lapply(data_files, fread)
 
-# Define a function that cleans-up the column names.
+# fix column names
 fix_colnames <- function(x) {
-	# Replace "/" and " " with "_".
+	# a function that cleans-up the data's column names
+	# replace "/" and " " with "_"
 	colnames(x) <- gsub("/|\\ ","_",colnames(x))
 	return(x)
 }
 all_data <- lapply(all_data,fix_colnames)
 
-# Combine the data into a single data.table.
-dt_combined <- rbindlist(all_data,use.names=TRUE,fill=TRUE,idcol="Date")
+# munge the Last_Update column
+for (i in seq(all_data)) {
+	dt <- all_data[[i]]
+	# "2021-01-02 05:22:33 UTC"
+	# Some dates are formatted like: "1/22/2020 17:00"
+	if (any(grepl("/",dt$Last_Update))){
+		# if date contains a /, then format it appropriately
+		d <- as.Date(sapply(strsplit(dt$Last_Update,split="\\ "),"[",1),"%m/%d/%Y")
+		dt$Last_Update <- as.POSIXct(d,tz="UTC")
+	} else {
+		dt$Last_Update <- as.POSIXct(dt$Last_Update,tz="UTC")
+	}
+	all_data[[i]] <- dt
+}
 
-#--------------------------------------------------------------------
-## Tidy the combined COVID-19 data.
-#--------------------------------------------------------------------
+# combine the data into a single data.table
+# NOTE: this breaks if Last_Update column is of variable formats...
+dt_combined <- rbindlist(all_data, use.names=TRUE, fill=TRUE, idcol="Date")
+
+
+## ---- Tidy the combined COVID-19 data
 
 # Melt the combined data into a tidy data.table.
 dt_covid <-  melt(dt_combined,
@@ -110,9 +120,9 @@ dt_covid$Date <- as.POSIXct(dt_covid$Date,format="%m-%d-%Y",tz="UTC")
 # Sort the data.
 dt_covid <- dt_covid %>% setorder(Country_Region,Province_State,Category,Date)
 
-#---------------------------------------------------------------------
-## Clean-up the Countries column.
-#---------------------------------------------------------------------
+
+## ---- Clean-up the Countries column.
+
 # Combine data from countries that are listed multiple times due to
 # multiple names.
 
@@ -207,15 +217,16 @@ myfile <- file.path(rdatdir,"global_cases.RData")
 global_cases <- dt_covid
 save(global_cases,file=myfile,version=2)
 
-#---------------------------------------------------------------------
-## Summary statistics.
-#---------------------------------------------------------------------
+
+## ---- Summary statistics.
 # Note: These numbers may differ from the JHU dashboard.
 
 # Elapsed time since first confirmed COVID case.
 today <- Sys.Date()
 start <- min(dt_covid[which(dt_covid$Category=="Confirmed"),Date])
 elapsed <- ceiling(difftime(today,start))
+
+print(elapsed)
 
 # Number of countries.
 countries <- unique(dt_covid$Country_Region)
