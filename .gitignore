@@ -7,6 +7,8 @@ bin/
 renv.lock
 renv/
 
+rdata/
+
 # Ignore .RData
 .RData
 
