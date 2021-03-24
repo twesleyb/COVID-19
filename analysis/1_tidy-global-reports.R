@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 
-# Pull COVID-19 data from Github and tidy it up.
+# title: covid19
+# author: twab
+# description: Pull COVID-19 data from CSSE Github and then tidy it up
 
 ## Input:
 # COVID-19 daily reports in:
