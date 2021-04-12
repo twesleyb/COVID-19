@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Tyler",
            family = "Bradshaw",
            role = c("aut", "cre"),
-           email = "twesleyb10@duke.gmail.com")
+           email = "twesleyb10@gmail.com")
 Description: Repository for COVID-19 case data.
 License: See License in README.md
 Encoding: UTF-8
