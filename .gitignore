@@ -8,6 +8,8 @@ renv.lock
 renv/
 rdata/
 
+rdata/
+
 # Ignore .RData
 .RData
 
