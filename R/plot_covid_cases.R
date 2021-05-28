@@ -55,7 +55,7 @@ plot_covid_cases <- function(dt_covid,
 		summarize(Date=min(Date),.groups="drop")
 	# FIXME:
 	# use of data.table::transpose results coerces UTC dates
-	# to numeric. Don't cal p0 %>% data.table::transpose
+	# to numeric. Don't calc p0 %>% data.table::transpose
 	# Error message:
 	# Error in as.POSIXct.numeric(time2) : 'origin' must be supplied
 
